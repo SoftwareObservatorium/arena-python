@@ -1,4 +1,4 @@
-from arena.ssn.parser import resolve_cell_reference, is_cell_reference, parse
+from arena.ssn.ssnparser import resolve_cell_reference, is_cell_reference, parse_sheet
 
 
 def test_resolve_cell_reference():
@@ -22,7 +22,7 @@ def test_parse():
                 {"cells": {"A3": {}, "B3": "push", "C3": "A1", "D3": "A2"}}
                 {"cells": {"A4": 1, "B4": "size", "C4": "A1"}}"""
 
-    sheet = parse("test1", myStr)
+    sheet = parse_sheet("test1", myStr)
 
     assert 4 == len(sheet.rows)
     assert 3 == len(sheet.rows[0].cells)
@@ -37,3 +37,12 @@ def test_parse():
     cell = sheet.resolve("D2")
     assert "D2" == cell.key
     assert "'Hello World!'" == cell.value
+
+    # test methods
+    assert 'A2' == sheet.rows[1].get_output().key
+    assert 'B2' == sheet.rows[1].get_operation().key
+    assert ['C2', 'D2'] == [x.key for x in sheet.rows[1].get_inputs()]
+
+    # is cell reference?
+    assert not sheet.rows[1].get_operation().is_cell_reference()
+    assert sheet.rows[2].get_inputs()[1].is_cell_reference()

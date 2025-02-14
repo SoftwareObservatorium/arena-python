@@ -84,7 +84,7 @@ class LqlListener(LQLListener):
             self.parse_result.filters.append(ctx.FILTERVALUE().getText())
 
 
-def parse(lql: str):
+def parse_lql(lql: str):
     lexer = LQLLexer(InputStream(lql))
     stream = CommonTokenStream(lexer)
     parser = LQLParser(stream)

@@ -1,3 +1,5 @@
+import json
+
 class ParsedSheet:
 
     def __init__(self, name: str):
@@ -21,6 +23,16 @@ class ParsedRow:
         self.sheet = sheet
         self.cells = cells
 
+    def get_output(self):
+        return self.cells[0]
+
+    def get_operation(self):
+        return self.cells[1]
+
+    def get_inputs(self):
+        return self.cells[2:]
+
+
 class ParsedCell:
 
     def __init__(self, row: ParsedRow, key: str, value):
@@ -28,10 +40,17 @@ class ParsedCell:
         self.key = key
         self.value = value
 
+    def is_cell_reference(self):
+        return is_cell_reference(self.value)
 
-import json
+    def is_test_parameter(self):
+        if not type(self.value) == str:
+            return False
 
-def parse(sheet_name : str, jsonl: str):
+        return self.value.startswith("?")
+
+
+def parse_sheet(sheet_name : str, jsonl: str):
     sheet = ParsedSheet(sheet_name)
     for line in jsonl.splitlines():
         # Strip any leading or trailing whitespace
@@ -55,12 +74,18 @@ def parse(sheet_name : str, jsonl: str):
 import re
 
 def is_cell_reference(cell_reference):
+    if not type(cell_reference) == str:
+        return False
+
     if not re.fullmatch("[A-Z]+[0-9]", cell_reference):
         return False
+
     return True
 
 
 def resolve_cell_reference(cell_reference):
+
+
     if not re.fullmatch("[A-Z]+[0-9]", cell_reference):
         raise ValueError("Invalid cell reference: {}".format(cell_reference))
 
@@ -75,13 +100,3 @@ def resolve_cell_reference(cell_reference):
     row = int(row_str) - 1
 
     return (row, col)
-
-# FIXME remove
-if __name__ == "__main__":
-    myStr = """{"cells": {"A1": {}, "B1": "create", "C1": "Stack"}}
-                {"cells": {"A2": {}, "B2": "create", "C2": "java.lang.String", "D2": "'Hello World!'"}}
-                {"cells": {"A3": {}, "B3": "push", "C3": "A1", "D3": "A2"}}
-                {"cells": {"A4": 1, "B4": "size", "C4": "A1"}}"""
-
-    sheet = parse("test1", myStr)
-    print(sheet.rows)

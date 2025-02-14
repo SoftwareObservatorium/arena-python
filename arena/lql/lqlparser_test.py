@@ -1,9 +1,9 @@
-from arena.lql.lqlparser import parse
+from arena.lql.lqlparser import parse_lql
 
 
 def test_parse():
     lql = """Base64 { encode(byte[])->byte[] }"""
-    parse_result = parse(lql)
+    parse_result = parse_lql(lql)
 
     interface = parse_result.interface
     assert "Base64" == interface.name
