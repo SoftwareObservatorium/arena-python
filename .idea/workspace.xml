@@ -5,16 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7a04b348-b7e1-4004-bf43-c3452fe416f3" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/arena/arena.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/arena/engine/classes.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/arena/engine/adaptation.py" beforeDir="false" afterPath="$PROJECT_DIR$/arena/engine/adaptation.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/arena/engine/ssntestdriver.py" beforeDir="false" afterPath="$PROJECT_DIR$/arena/engine/ssntestdriver.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/arena/ssn/ssnparser.py" beforeDir="false" afterPath="$PROJECT_DIR$/arena/ssn/ssnparser.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/arena_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/arena_test.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/ssnparser_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/ssnparser_test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -81,7 +73,7 @@
       <recent name="$PROJECT_DIR$/arena/" />
     </key>
   </component>
-  <component name="RunManager" selected="Python tests.Python tests in tests">
+  <component name="RunManager" selected="Python tests.Python tests for arena_test.test_srm_list">
     <configuration name="Python tests for arena_test.test_list" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="arena-python" />
       <option name="ENV_FILES" value="" />
@@ -159,8 +151,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python tests.Python tests in tests" />
         <item itemvalue="Python tests.Python tests for arena_test.test_srm_list" />
+        <item itemvalue="Python tests.Python tests in tests" />
         <item itemvalue="Python tests.Python tests for arena_test.test_queue" />
         <item itemvalue="Python tests.Python tests for arena_test.test_list" />
         <item itemvalue="Python tests.Python tests in arena_test.py" />
