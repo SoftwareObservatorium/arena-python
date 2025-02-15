@@ -1,3 +1,5 @@
+import logging
+
 from antlr4.CommonTokenStream import CommonTokenStream
 from antlr4.InputStream import InputStream
 from antlr4.tree.Tree import ParseTreeWalker
@@ -5,6 +7,10 @@ from antlr4.tree.Tree import ParseTreeWalker
 from arena.lql.LQLLexer import LQLLexer
 from arena.lql.LQLListener import LQLListener
 from arena.lql.LQLParser import LQLParser
+
+
+logger = logging.getLogger(__name__)
+
 
 class Interface:
 
@@ -33,12 +39,14 @@ class LQLParseResult:
 
 
 class LqlListener(LQLListener):
+    """
+    Listener to construct Interface from parse tree
+    """
 
     def __init__(self):
         self.parse_result = None
 
     def enterInterfaceSpec(self, ctx:LQLParser.InterfaceSpecContext):
-        print(ctx.simpletype())
         if ctx.simpletype() is not None:
             self.parse_result = LQLParseResult(Interface(ctx.simpletype().getText()))
 
@@ -85,6 +93,13 @@ class LqlListener(LQLListener):
 
 
 def parse_lql(lql: str):
+    """
+    Parse LQL string into model.
+
+    :param lql:
+    :return:
+    """
+
     lexer = LQLLexer(InputStream(lql))
     stream = CommonTokenStream(lexer)
     parser = LQLParser(stream)
@@ -97,6 +112,7 @@ def parse_lql(lql: str):
     walker.walk(listener, tree)
 
     parse_result = listener.parse_result
-    #print(tree.toStringTree(recog=parser))
+
+    logger.debug(f"parsed LQL {tree.toStringTree(recog=parser)}")
 
     return parse_result

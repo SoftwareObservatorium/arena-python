@@ -1,15 +1,329 @@
+import logging
+from types import MethodType
+
+from arena.engine.adaptation import AdaptedImplementation
+from arena.execution import eval_code_expression
 from arena.lql.lqlparser import Interface
 from arena.ssn.ssnparser import ParsedSheet, ParsedCell, resolve_cell_reference
+from arena.introspection import resolve_type_by_name, resolve_constructor, resolve_operation, is_function
+
+logger = logging.getLogger(__name__)
+
+# SSN keywords
+SSN_CREATE = ["create".lower(), "$create".lower()]
+SSN_EVAL = ["$eval".lower()]
 
 
-def eval_code_expression(code: str):
-    return eval(code)
+class Parameter:
+    """
+    Parameter model
+    """
+
+    def __init__(self, target_class, expression: str | None, value: object):
+        self.target_class = target_class
+        self.expression = expression
+        self.value = value
+        self.coordinate = []
 
 
-def resolve_parameter_type(arg: ParsedCell):
+    def is_reference(self):
+        return self.coordinate and len(self.coordinate) > 0
+
+
+class Invocation:
+    """
+    Invocation model
+    """
+
+    def __init__(self, index: int):
+        self.index = index
+        self.parameters: [Parameter] = []
+        self.target_class = None
+        self.expected_output = None
+        self.target: Parameter = None
+
+    def execute(self, executed_invocations, executed_invocation, adapted_implementation: AdaptedImplementation):
+        pass
+
+
+class MemberInvocation(Invocation):
+    """
+    Invocation model for callables (operations and initializers)
+    """
+
+    def __init__(self, index: int):
+        super().__init__(index)
+        self.member = None
+
+
+    def is_cut(self):
+        pass
+
+
+    def is_function(self):
+        return is_function(self.member)
+
+
+    def __str__(self):
+        return f"{self.__class__.__name__} => {self.index}, {self.member}, {self.target_class}, {self.parameters}"
+
+
+class MethodInvocation(MemberInvocation):
+    """
+    Invocation model for callables (operations and functions)
+    """
+
+    def execute(self, executed_invocations, executed_invocation, adapted_implementation: AdaptedImplementation):
+        """
+        Execute operation (method/function)
+
+        :param executed_invocations:
+        :param executed_invocation:
+        :param adapted_implementation:
+        :return:
+        """
+
+        # input values for operation
+        inputs = [x.value for x in executed_invocation.inputs]
+
+        # instance
+        target_instance: Obj = executed_invocation.resolve_target_instance()
+
+        obj = Obj()
+        # functions?
+        # special len() function
+        if self.member == len:
+            try:
+                # we need target instance
+                result = len(target_instance.value)
+                obj.value = result
+            except Exception as e:
+                obj.exception = e
+        elif callable(self.member): # FIXME or isinstance(self.member, MethodType)??
+            # call method/function
+            try:
+                # we need target instance for method call
+                method_inputs = [target_instance.value] + inputs # instance + inputs
+
+                logger.debug(f"calling {self.member} with args {method_inputs}")
+
+                result = self.member(*method_inputs)
+                obj.value = result
+            except Exception as e:
+                obj.exception = e
+        else:
+            logger.warning(f"unknown invocation {executed_invocation.invocation}")
+
+        logger.debug(f"output {obj}")
+
+        executed_invocation.output = obj
+
+
+class InstanceInvocation(MemberInvocation):
+    """
+    Invocation model for callables (initializers like constructors)
+    """
+
+    def execute(self, executed_invocations, executed_invocation, adapted_implementation: AdaptedImplementation):
+        """
+        Create instance by using an initializer like a constructor
+
+        :param executed_invocations:
+        :param executed_invocation:
+        :param adapted_implementation:
+        :return:
+        """
+
+        inputs = [x.value for x in executed_invocation.inputs]
+
+        obj = Obj()
+
+        # call method/function
+        try:
+            logger.debug(f"calling {self.member} with args {inputs}")
+
+            target_class = executed_invocation.invocation.target_class
+
+            # FIXME how to handle builtin objects ...
+            if target_class is list:
+                logger.debug(f"found list")
+                result = list()
+            else:
+                result = self.member()
+
+            obj.value = result
+        except Exception as e:
+            obj.exception = e
+
+        logger.debug(f"output {obj}")
+
+        executed_invocation.output = obj
+
+
+class CodeInvocation(Invocation):
+    """
+    Invocation model for code expressions that need to be evaluated
+    """
+
+    def __init__(self, index: int):
+        super().__init__(index)
+        self.expression = None
+
+
+    def execute(self, executed_invocations, executed_invocation, adapted_implementation: AdaptedImplementation):
+        """
+        Execute code expression
+
+        :param adapted_implementation:
+        :param executed_invocations:
+        :param executed_invocation:
+        :return:
+        """
+
+        obj = Obj()
+        try:
+            result = eval_code_expression(self.expression)
+            obj.value = result
+        except Exception as e:
+            obj.exception = e
+
+        executed_invocation.output = obj
+
+
+class Invocations:
+    """
+    Invocations model for a sequence of invocations
+    """
+
+    def __init__(self):
+        self.sequence = []
+
+    def create_method_invocation(self):
+        invocation = MethodInvocation(len(self.sequence))
+        self.sequence.append(invocation)
+        return invocation
+
+
+    def create_instance_invocation(self):
+        invocation = InstanceInvocation(len(self.sequence))
+        self.sequence.append(invocation)
+        return invocation
+
+
+    def create_code_invocation(self):
+        invocation = CodeInvocation(len(self.sequence))
+        self.sequence.append(invocation)
+        return invocation
+
+
+    def get_invocation(self, index: int):
+        return self.sequence[index]
+
+
+    def __str__(self):
+        out = "Invocations\n"
+        i = 0
+        for invocation in self.sequence:
+            out += f"{i} => {invocation}\n"
+            i += 1
+        return out
+
+
+class Obj:
+    """
+    Container for result of the execution of an invocation (value or exception)
+    """
+
+    def __init__(self):
+        self.producer_index = -1
+        self.value = None
+        self.exception = None
+
+
+    def has_exception(self):
+        return self.exception is not None
+
+
+    def __str__(self):
+        if self.has_exception():
+            return f"{self.exception}"
+
+        return f"{self.value}"
+
+
+class ExecutedInvocation:
+    """
+    Models an executed invocation and its result
+    """
+
+    def __init__(self, invocation: Invocation, executed_invocations):
+        self.executed_sequence = []
+        self.invocation = invocation
+        self.executed_invocations = executed_invocations
+        self.output: Obj | None = None
+        self.inputs: [Obj] = []
+
+
+    def resolve_target_instance(self):
+        target = self.invocation.target
+        executed_invocation = self.executed_invocations.get_executed_invocation(target.coordinate[0])
+
+        return executed_invocation.output
+
+
+    def __str__(self):
+        return f"{self.__class__.__name__} => {self.invocation}, {self.inputs}, {self.output}"
+
+
+class ExecutionInvocations:
+    """
+    Sequence of executed invocations and their result
+    """
+
+    def __init__(self, invocations: Invocations):
+        self.executed_sequence = []
+        self.invocations = invocations
+
+
+    def create(self, invocation: Invocation):
+        executed_invocation = ExecutedInvocation(invocation, self)
+        self.executed_sequence.append(executed_invocation)
+
+        return executed_invocation
+
+
+    def get_executed_invocation(self, index: int):
+        return self.executed_sequence[index]
+
+
+    def get_last_executed_invocation(self):
+        return self.executed_sequence[-1]
+
+
+    def __str__(self):
+        out = "Executed Invocations\n"
+        i = 0
+        for executed_invocation in self.executed_sequence:
+            out += f"{i} => {executed_invocation}\n"
+            i += 1
+        return out
+
+
+def resolve_parameter_type(invocations: Invocations, arg: ParsedCell):
+    """
+    Resolve parameters and their types
+
+    :param invocations:
+    :param arg:
+    :return:
+    """
+
     if arg.is_cell_reference():
         coordinate = resolve_cell_reference(arg.value)
-        # FIXME get invocation
+        invocation = invocations.get_invocation(coordinate[0])
+        p = Parameter(invocation.target_class, None, None)
+        p.coordinate = coordinate
+        return p
 
     if arg.is_test_parameter():
         # ?pX
@@ -17,32 +331,268 @@ def resolve_parameter_type(arg: ParsedCell):
 
     # is code expression
     out_val = None
+    out_expr = None
     if type(arg.value) == str:
+        out_expr = arg.value
         out_val = eval_code_expression(arg.value)
     else:
         out_val = arg.value
 
-    print(out_val)
+    return Parameter(type(out_val), out_expr, out_val)
 
 
-def interpret(parsed_sheet: ParsedSheet, interface_specification: Interface):
+def resolve_parameter_types(invocations: Invocations, input_args):
+    """
+    Resolve parameters and their types
+
+    :param invocations:
+    :param input_args:
+    :return:
+    """
+
+    parameters = []
+
+    for input_arg in input_args:
+        input_arg = resolve_parameter_type(invocations, input_arg)
+        parameters.append(input_arg)
+
+    return parameters
+
+
+def instance_invocation(invocations: Invocations, class_name, input_args):
+    """
+    Create instance invocation
+
+    :param invocations:
+    :param class_name:
+    :param input_args:
+    :return:
+    """
+
+    invocation = invocations.create_instance_invocation()
+
+    # resolve class (primitives, fully qualified class names etc.)
+    clazz = resolve_type_by_name(class_name)
+    logger.debug("found type " + str(clazz))
+    invocation.target_class = clazz
+
+    # resolve parameters
+    input_parameters = resolve_parameter_types(invocations, input_args)
+    invocation.parameters = input_parameters
+    input_types = [x.target_class for x in input_parameters]
+
+    # resolve constructor / initializer
+    constructor = resolve_constructor(clazz, input_types)
+
+    invocation.member = constructor
+
+    return invocation
+
+
+def method_invocation(invocations: Invocations, clazz_cell, operation_name: str, input_args):
+    """
+    Create operation (method, function) invocation
+
+    :param invocations:
+    :param clazz_cell:
+    :param operation_name:
+    :param input_args:
+    :return:
+    """
+
+    invocation = invocations.create_method_invocation()
+
+    # resolve instance by cell identifier
+    clazz_name_cell_ref = clazz_cell.value
+    coordinate = resolve_cell_reference(clazz_name_cell_ref)
+
+    instance_invocation = invocations.get_invocation(coordinate[0])
+    target_class = instance_invocation.target_class
+    invocation.target_class = target_class
+
+    logger.debug(f"resolved coordinate {coordinate} from {clazz_name_cell_ref} for operation {operation_name} / target class {target_class}")
+
+    # set target
+    target = Parameter(target_class, clazz_cell, None)
+    target.coordinate = coordinate
+    invocation.target = target
+
+    # resolve parameters
+    input_parameters = resolve_parameter_types(invocations, input_args)
+    invocation.parameters = input_parameters
+    input_types = [x.target_class for x in input_parameters]
+
+    # resolve operation (method/function)
+    operation = resolve_operation(target_class, operation_name, input_types)
+    invocation.member = operation
+
+    logger.debug(f"Resolved operation {operation} for class {target_class}")
+
+    return invocation
+
+
+def code_invocation(invocations: Invocations, code_cell):
+    """
+    Execute a code expression
+
+    :param invocations:
+    :param code_cell:
+    :return:
+    """
+
+    invocation = invocations.create_code_invocation()
+    invocation.expression = code_cell.value
+    # execute expression
+    result = eval_code_expression(code_cell.value)
+    if result:
+        invocation.target_class = type(result)
+
+    invocation.parameters = []
+
+    return invocation
+
+
+def interpret_sheet(parsed_sheet: ParsedSheet, interface_specification: Interface):
+    """
+    Interpretation (dry) run of parsed sheet (resolves all bindings)
+
+    :param parsed_sheet:
+    :param interface_specification:
+    :return:
+    """
+
+    invocations = Invocations()
+
     for parsed_row in parsed_sheet.rows:
         output = parsed_row.get_output()
         operation = parsed_row.get_operation()
         inputs = parsed_row.get_inputs()
 
         #either points to class name to instantiate (with "create" operation) or reference to object
-        clazz = inputs[0]
+        clazz_cell = inputs[0]
         input_args = []
         #remaining input parameters
         if len(inputs) > 1:
             input_args = inputs[1:]
-        if operation == "create":
+
+        invocation = None
+        if operation.value.lower() in SSN_CREATE:
             # constructor invocation
-            pass
+            clazz_name = clazz_cell.value
+            invocation = instance_invocation(invocations, clazz_name, input_args)
+        elif operation.value.lower() in SSN_EVAL:
+            # code invocation
+            invocation = code_invocation(invocations, clazz_cell)
         else:
             # method invocation
-            pass
+            invocation = method_invocation(invocations, clazz_cell, operation.value, input_args)
 
         # resolve expected output
-        resolve_parameter_type(output)
+        expected_output = resolve_parameter_type(invocations, output)
+        invocation.expected_output = expected_output
+
+    return invocations
+
+
+def resolve_inputs(executed_invocations: ExecutionInvocations, executed_invocation: ExecutedInvocation):
+    invocation = executed_invocation.invocation
+    inputs = []
+    for parameter in invocation.parameters:
+        if parameter.is_reference():
+            ref = executed_invocations.get_executed_invocation(parameter.coordinate[0])
+            inputs.append(ref.output)
+        else:
+            # assumes code expression
+            obj = Obj()
+            try:
+                result = eval_code_expression(parameter.expression)
+                obj.value = result
+            except Exception as e:
+                obj.exception = e
+
+            inputs.append(obj)
+
+    return inputs
+
+
+class InvocationListener:
+    """
+    Listener for sheet invocations on adapted implementation candidates.
+    """
+
+    # def visit_before_execution(self, adapted_implementation: AdaptedImplementation):
+    #     logger.debug(f"before execution {adapted_implementation}")
+    #
+    #
+    # def visit_after_execution(self, adapted_implementation: AdaptedImplementation):
+    #     logger.debug(f"after execution {adapted_implementation}")
+
+
+    def visit_before_invocation(self, executed_invocations: ExecutionInvocations, index: int, adapted_implementation: AdaptedImplementation):
+        logger.debug(f"before invocation {index}, {adapted_implementation}")
+
+
+    def visit_after_invocation(self, executed_invocations: ExecutionInvocations, index: int, adapted_implementation: AdaptedImplementation):
+        logger.debug(f"after invocation {index}, {adapted_implementation}")
+
+
+    def visit_before_invocations(self, executed_invocations: ExecutionInvocations,
+                                adapted_implementation: AdaptedImplementation):
+        logger.debug(f"before all invocations, {adapted_implementation}")
+
+
+    def visit_after_invocations(self, executed_invocations: ExecutionInvocations,
+                               adapted_implementation: AdaptedImplementation):
+        logger.debug(f"after all invocations, {adapted_implementation}")
+
+
+def run_sheet(invocations: Invocations, adapted_implementation: AdaptedImplementation, invocation_listener: InvocationListener = InvocationListener()):
+    """
+    Run stimulus sheet on adapted implementation candidate.
+
+    :param invocations:
+    :param adapted_implementation:
+    :param invocation_listener
+    :return:
+    """
+    executed_invocations = ExecutionInvocations(invocations)
+
+    # before execution
+    try:
+        invocation_listener.visit_before_invocations(executed_invocations, adapted_implementation)
+    except Exception as e:
+        logger.warning(e)
+
+    for invocation in invocations.sequence:
+        executed_invocation = executed_invocations.create(invocation)
+
+        # resolve inputs
+        inputs = resolve_inputs(executed_invocations, executed_invocation)
+        executed_invocation.inputs = inputs
+
+        # before execution invocation
+        try:
+            invocation_listener.visit_before_invocation(executed_invocations, executed_invocation.invocation.index, adapted_implementation)
+        except Exception as e:
+            logger.warning(e)
+
+        # execute the invocation
+        try:
+            invocation.execute(executed_invocations, executed_invocation, adapted_implementation)
+        except Exception as e:
+            logger.warning(e)
+
+        # after execution invocation
+        try:
+            invocation_listener.visit_after_invocation(executed_invocations, executed_invocation.invocation.index, adapted_implementation)
+        except Exception as e:
+            logger.warning(e)
+
+
+    # after execution
+    try:
+        invocation_listener.visit_after_invocations(executed_invocations, adapted_implementation)
+    except Exception as e:
+        logger.warning(e)
+
+    return executed_invocations

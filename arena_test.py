@@ -16,7 +16,7 @@ handler.setFormatter(formatter)
 logger.addHandler(handler)
 
 
-if __name__ == '__main__':
+def test_list():
     # class under test
     adapted_implementation = AdaptedImplementation(list)
     logger.debug(f" Class under test {adapted_implementation.class_under_test}")
