@@ -43,7 +43,12 @@ def test_list():
     invocations = interpret_sheet(parsed_sheet, parse_result.interface)
     logger.debug(invocations)
 
+    assert 5 == len(invocations.sequence)
+
     # run on candidate implementation
     invocation_listener = InvocationListener()
     executed_invocations = run_sheet(invocations, adapted_implementation, invocation_listener)
     logger.debug(executed_invocations)
+
+    assert 5 == len(executed_invocations.executed_sequence)
+    assert 'Hello World!' == executed_invocations.get_executed_invocation(3).output.value
