@@ -4,15 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7a04b348-b7e1-4004-bf43-c3452fe416f3" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/arena/lql/lqlparser_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/lqlparser_test.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/arena/ssn/ssnparser_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/ssnparser_test.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/arena_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/arena_test.py" afterDir="false" />
-    </list>
+    <list default="true" id="7a04b348-b7e1-4004-bf43-c3452fe416f3" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
