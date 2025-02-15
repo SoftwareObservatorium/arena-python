@@ -1,5 +1,8 @@
 import inspect
 import logging
+import random
+import string
+import time
 from types import MethodType
 
 from arena.engine.adaptation import AdaptedImplementation
@@ -521,8 +524,9 @@ def lql_to_python_class(interface_specification: Interface):
     constructors = interface_specification.get_constructors()
     methods = interface_specification.get_methods()
 
-    # FIXME unique names for adapter class and methods ...
-    adapter_clazz_name = f"{interface_specification.name}"
+    # unique names for adapter class and methods ...
+    adapter_prefix = ''.join(random.choices(string.ascii_uppercase, k=10))
+    adapter_clazz_name = f"{adapter_prefix}.{interface_specification.name}"
     # create new class on the fly
     adapter_clazz = type(adapter_clazz_name, (object,), {})
 
@@ -537,8 +541,8 @@ def lql_to_python_class(interface_specification: Interface):
             params += f"param{i}"
 
         init_name = '__init__'
-        init_source = "def cls_init(self, "+params+"):\n\tpass" #self.type = 3"
-        init_obj = create_callable("cls_init", init_source)
+        init_source = f"def {adapter_prefix}_cls_init(self, {params}):\n\tpass" #self.type = 3"
+        init_obj = create_callable(f"{adapter_prefix}_cls_init", init_source)
         #adapter_clazz.__init__ = cls_init
         setattr(adapter_clazz, init_name, init_obj)
 
@@ -549,8 +553,9 @@ def lql_to_python_class(interface_specification: Interface):
             for i in range(len(method.inputs)):
                 params += f"param{i}"
 
-            method_source = "def "+method.name+"(self, " + params + "):\n\tpass"
-            method_obj = create_callable(method.name, method_source)
+            method_name = f"{adapter_prefix}_{method.name}"
+            method_source = f"def {method_name}(self, {params}):\n\tpass"
+            method_obj = create_callable(method_name, method_source)
 
             logger.debug(f"{method_obj}")
 
