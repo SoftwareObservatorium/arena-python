@@ -20,6 +20,14 @@ class Interface:
         self.lql_query = ''
 
 
+    def get_methods(self):
+        return [x for x in self.methods if not x.constructor]
+
+
+    def get_constructors(self):
+        return [x for x in self.methods if x.constructor]
+
+
 class MethodSignature:
 
     def __init__(self, name: str, constructor: bool):
