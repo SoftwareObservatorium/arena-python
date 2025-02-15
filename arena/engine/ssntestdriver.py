@@ -522,7 +522,7 @@ def lql_to_python_class(interface_specification: Interface):
     constructors = interface_specification.get_constructors()
     methods = interface_specification.get_methods()
 
-    # FIXME unique name ...
+    # FIXME unique names for adapter class and methods ...
     adapter_clazz_name = f"{interface_specification.name}"
     # create new class on the fly
     adapter_clazz = type(adapter_clazz_name, (object,), {})
@@ -530,7 +530,7 @@ def lql_to_python_class(interface_specification: Interface):
     assert len(constructors) < 2, "only zero or one constructors allowed"
 
     mapping = dict()
-    if len(constructors) is 1:
+    if len(constructors) == 1:
         constructor = constructors[0]
 
         params = ""
