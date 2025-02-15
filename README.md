@@ -26,6 +26,12 @@ Adaptation strategies are realized in
 * [introspection.py](arena/introspection.py)
 * [execution.py](arena/execution.py)
 
+## Stimulus Matrix (SM) / Stimulus Response Matrix (SRM)
+
+SMs and SRMs are based on pandas DataFrame
+
+* [arena.py](arena/arena.py)
+
 ## Demonstration
 
 Tests that demonstrate the arena test driver can be found in [tests/](tests/).
