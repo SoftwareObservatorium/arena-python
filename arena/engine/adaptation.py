@@ -25,8 +25,8 @@ class AdaptedImplementation:
     Model for adapted implementation
     """
 
-    def __init__(self, class_under_test, initializer_mapping: dict, method_mapping: dict):
-        self.class_under_test = class_under_test
+    def __init__(self, cut, initializer_mapping: dict, method_mapping: dict):
+        self.cut = cut
         self.initializer_mapping = initializer_mapping
         self.method_mapping = method_mapping
         self.adapter_id = "0"
@@ -51,7 +51,7 @@ class AdaptationStrategy:
     Interface for adaptation strategies
     """
 
-    def adapt(self, interface_specification, class_under_test, no_adapters: int) -> [AdaptedImplementation]:
+    def adapt(self, interface_specification, cut, no_adapters: int) -> [AdaptedImplementation]:
         pass
 
 
@@ -60,7 +60,7 @@ class PassThroughAdaptationStrategy(AdaptationStrategy):
     Simple pass through strategy (1:1 mapping between interface spec and python callables)
     """
 
-    def adapt(self, interface_specification, class_under_test, no_adapters: int) -> [AdaptedImplementation]:
+    def adapt(self, interface_specification, cut, no_adapters: int) -> [AdaptedImplementation]:
         """
         Only one adapter is created. The interface of the class under test is assumed to match the lql interface.
 
@@ -69,10 +69,10 @@ class PassThroughAdaptationStrategy(AdaptationStrategy):
         :return:
         """
 
-        initializer_mapping = self.resolve_initializers(interface_specification, class_under_test)
-        method_mapping = self.resolve_methods(interface_specification, class_under_test)
+        initializer_mapping = self.resolve_initializers(interface_specification, cut.class_under_test)
+        method_mapping = self.resolve_methods(interface_specification, cut.class_under_test)
 
-        return [AdaptedImplementation(class_under_test, initializer_mapping, method_mapping)]
+        return [AdaptedImplementation(cut, initializer_mapping, method_mapping)]
 
 
     def resolve_methods(self, interface_specification, class_under_test):

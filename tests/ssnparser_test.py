@@ -22,7 +22,7 @@ def test_parse():
                 {"cells": {"A3": {}, "B3": "push", "C3": "A1", "D3": "A2"}}
                 {"cells": {"A4": 1, "B4": "size", "C4": "A1"}}"""
 
-    sheet = parse_sheet("test1", myStr)
+    sheet = parse_sheet(myStr)
 
     assert 4 == len(sheet.rows)
     assert 3 == len(sheet.rows[0].cells)

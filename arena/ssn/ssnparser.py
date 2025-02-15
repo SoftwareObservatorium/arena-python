@@ -7,8 +7,7 @@ logger = logging.getLogger(__name__)
 
 class ParsedSheet:
 
-    def __init__(self, name: str):
-        self.name = name
+    def __init__(self):
         self.rows = []
 
 
@@ -55,8 +54,8 @@ class ParsedCell:
         return self.value.startswith("?")
 
 
-def parse_sheet(sheet_name : str, jsonl: str):
-    sheet = ParsedSheet(sheet_name)
+def parse_sheet(jsonl: str):
+    sheet = ParsedSheet()
     for line in jsonl.splitlines():
         # Strip any leading or trailing whitespace
         stripped_line = line.strip()
@@ -89,8 +88,6 @@ def is_cell_reference(cell_reference):
 
 
 def resolve_cell_reference(cell_reference):
-
-
     if not re.fullmatch("[A-Z]+[0-9]", cell_reference):
         raise ValueError("Invalid cell reference: {}".format(cell_reference))
 

@@ -2,8 +2,10 @@ import logging
 import sys
 from collections import deque
 
-from arena.engine.adaptation import AdaptedImplementation, PassThroughAdaptationStrategy
-from arena.engine.ssntestdriver import interpret_sheet, run_sheet, InvocationListener
+from arena.arena import parse_stimulus_matrix, Sheet, run_sheets, collect_actuation_sheets
+from arena.engine.adaptation import PassThroughAdaptationStrategy
+from arena.engine.classes import ClassUnderTest
+from arena.engine.ssntestdriver import interpret_sheet, run_sheet, InvocationListener, Test
 from arena.lql.lqlparser import parse_lql
 from arena.ssn.ssnparser import parse_sheet
 
@@ -17,6 +19,48 @@ handler.setFormatter(formatter)
 logger.addHandler(handler)
 
 
+def test_srm_list():
+    """
+    Demonstrates typical scenario: SM as input and SRM as output
+
+    :return:
+    """
+
+    # lql (interface specification)
+    lql = """List {
+        append(object)->void
+        pop()->object
+        len()->int }
+    """
+
+    # stimulus sheet
+    ssn_jsonl = """
+                {"cells": {"A1": {}, "B1": "create", "C1": "List"}}
+                {"cells": {"A2": {}, "B2": "append", "C2": "A1", "D2": "'Hello World!'"}}
+                {"cells": {"A3": 1,  "B3": "len",  "C3": "A1"}}
+                {"cells": {"A4": {}, "B4": "pop", "C4": "A1"}}
+                {"cells": {"A5": 0,  "B5": "len", "C5": "A1"}}
+    """
+
+    # classes under test
+    cuts = [ClassUnderTest("1", list), ClassUnderTest("2", deque)]
+
+    # create stimulus matrix
+    sm = parse_stimulus_matrix([Sheet("test1", ssn_jsonl, lql)], cuts)
+    logger.debug(sm.to_string())
+
+    # run stimulus matrix
+    invocation_listener = InvocationListener()
+    srm = run_sheets(sm, 1, invocation_listener)
+    # results based on internal ExecutedInvocation
+    logger.debug(srm.to_string())
+
+    # create actuation sheets, now we have the real stimulus response matrix (SRM)
+    srm_actuations = collect_actuation_sheets(srm)
+
+    logger.debug(srm_actuations.to_string())
+
+
 def test_list():
     # lql (interface specification)
     lql = """List {
@@ -27,13 +71,13 @@ def test_list():
     parse_result = parse_lql(lql)
 
     # class under test
-    cut = list
+    cut = ClassUnderTest("1", list)
 
     adaptation_strategy = PassThroughAdaptationStrategy()
     adapted_implementations = adaptation_strategy.adapt(parse_result.interface, cut, 1)
 
     adapted_implementation = adapted_implementations[0]
-    logger.debug(f" Class under test {adapted_implementation.class_under_test}")
+    logger.debug(f" Class under test {adapted_implementation.cut.class_under_test}")
 
     # stimulus sheet
     ssn_jsonl = """
@@ -43,10 +87,10 @@ def test_list():
                 {"cells": {"A4": {}, "B4": "pop", "C4": "A1"}}
                 {"cells": {"A5": 0,  "B5": "len", "C5": "A1"}}
     """
-    parsed_sheet = parse_sheet("test1", ssn_jsonl)
+    parsed_sheet = parse_sheet(ssn_jsonl)
 
     # interpret (resolve bindings)
-    invocations = interpret_sheet(parsed_sheet, parse_result.interface)
+    invocations = interpret_sheet(Test("test1", parsed_sheet, parse_result.interface))
     logger.debug(invocations)
 
     assert 5 == len(invocations.sequence)
@@ -70,13 +114,13 @@ def test_queue():
     parse_result = parse_lql(lql)
 
     # class under test
-    cut = deque
+    cut = ClassUnderTest("1", deque)
 
     adaptation_strategy = PassThroughAdaptationStrategy()
     adapted_implementations = adaptation_strategy.adapt(parse_result.interface, cut, 1)
 
     adapted_implementation = adapted_implementations[0]
-    logger.debug(f" Class under test {adapted_implementation.class_under_test}")
+    logger.debug(f" Class under test {adapted_implementation.cut.class_under_test}")
 
     # stimulus sheet
     ssn_jsonl = """
@@ -86,10 +130,10 @@ def test_queue():
                 {"cells": {"A4": {}, "B4": "pop", "C4": "A1"}}
                 {"cells": {"A5": 0,  "B5": "len", "C5": "A1"}}
     """
-    parsed_sheet = parse_sheet("test1", ssn_jsonl)
+    parsed_sheet = parse_sheet(ssn_jsonl)
 
     # interpret (resolve bindings)
-    invocations = interpret_sheet(parsed_sheet, parse_result.interface)
+    invocations = interpret_sheet(Test("test1", parsed_sheet, parse_result.interface))
     logger.debug(invocations)
 
     assert 5 == len(invocations.sequence)

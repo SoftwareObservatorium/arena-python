@@ -2,8 +2,6 @@ import inspect
 import logging
 import random
 import string
-import time
-from types import MethodType
 
 from arena.engine.adaptation import AdaptedImplementation
 from arena.execution import eval_code_expression, exec_code, create_callable
@@ -16,6 +14,17 @@ logger = logging.getLogger(__name__)
 # SSN keywords
 SSN_CREATE = ["create".lower(), "$create".lower()]
 SSN_EVAL = ["$eval".lower()]
+
+
+class Test:
+    """
+    A resolved stimulus sheet subject for testing
+    """
+
+    def __init__(self, name: str, parsed_sheet: ParsedSheet, interface_specification: Interface):
+        self.name = name
+        self.parsed_sheet = parsed_sheet
+        self.interface_specification = interface_specification
 
 
 class Parameter:
@@ -94,6 +103,7 @@ class MethodInvocation(MemberInvocation):
         target_instance: Obj = executed_invocation.resolve_target_instance()
 
         obj = Obj()
+        obj.producer_index = executed_invocation.invocation.index
 
         logger.debug(f"resolving cut method member for {self.member}")
 
@@ -118,6 +128,8 @@ class MethodInvocation(MemberInvocation):
             # call resolved member of CUT
             resolved_member = cut_method.member
             logger.debug(f"resolved method member is {resolved_member}")
+
+            executed_invocation.adapted_member = cut_method
 
             # call method/function
             try:
@@ -156,6 +168,7 @@ class InstanceInvocation(MemberInvocation):
         inputs = [x.value for x in executed_invocation.inputs]
 
         obj = Obj()
+        obj.producer_index = executed_invocation.invocation.index
 
         # call method/function
         try:
@@ -165,7 +178,7 @@ class InstanceInvocation(MemberInvocation):
 
             if len(executed_invocations.invocations.interface_mapping.interface_specification.get_constructors()) < 1:
                 # get default instance of CUT
-                result = adapted_implementation.class_under_test() # e.g., list()
+                result = adapted_implementation.cut.class_under_test() # e.g., list()
             else:
                 # resolve signature
                 signature = executed_invocations.invocations.interface_mapping.lql_to_python_mapping[self.member]
@@ -176,18 +189,13 @@ class InstanceInvocation(MemberInvocation):
                 resolved_member = cut_initializer.member
                 logger.debug(f"resolved initializer member is {resolved_member}")
 
-                #  FIXME with parameters
-                #resolved_member(*method_inputs)
+                executed_invocation.adapted_member = cut_initializer
 
                 # call it
-                result = resolved_member()
-
-            # # FIXME how to handle builtin objects ...
-            # if target_class is list:
-            #     logger.debug(f"found list")
-            #     result = list()
-            # else:
-            #     result = self.member()
+                if len(inputs) > 0:
+                    result = resolved_member(*inputs)
+                else:
+                    result = resolved_member()
 
             obj.value = result
         except Exception as e:
@@ -233,7 +241,8 @@ class Invocations:
     Invocations model for a sequence of invocations
     """
 
-    def __init__(self, interface_mapping):
+    def __init__(self, test: Test, interface_mapping):
+        self.test = test
         self.sequence = []
         self.interface_mapping = interface_mapping
 
@@ -291,6 +300,10 @@ class Obj:
         return f"{self.value}"
 
 
+    def is_cut(self, class_under_test):
+        return type(self.value) is class_under_test
+
+
 class ExecutedInvocation:
     """
     Models an executed invocation and its result
@@ -302,6 +315,7 @@ class ExecutedInvocation:
         self.executed_invocations = executed_invocations
         self.output: Obj | None = None
         self.inputs: [Obj] = []
+        self.adapted_member = None
 
 
     def resolve_target_instance(self):
@@ -569,20 +583,19 @@ def lql_to_python_class(interface_specification: Interface):
     return InterfaceMapping(interface_specification, adapter_clazz, mapping)
 
 
-def interpret_sheet(parsed_sheet: ParsedSheet, interface_specification: Interface):
+def interpret_sheet(test: Test):
     """
     Interpretation (dry) run of parsed sheet (resolves all bindings)
 
-    :param parsed_sheet:
-    :param interface_specification:
+    :param test:
     :return:
     """
 
-    interface_mapping = lql_to_python_class(interface_specification)
+    interface_mapping = lql_to_python_class(test.interface_specification)
 
-    invocations = Invocations(interface_mapping)
+    invocations = Invocations(test, interface_mapping)
 
-    for parsed_row in parsed_sheet.rows:
+    for parsed_row in test.parsed_sheet.rows:
         output = parsed_row.get_output()
         operation = parsed_row.get_operation()
         inputs = parsed_row.get_inputs()
