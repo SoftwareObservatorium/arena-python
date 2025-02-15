@@ -2,10 +2,11 @@ import logging
 import sys
 from collections import deque
 
-from arena.arena import parse_stimulus_matrix, Sheet, run_sheets, collect_actuation_sheets
+from arena.arena import parse_stimulus_matrix, Sheet, run_sheets, collect_actuation_sheets, SheetInvocation, \
+    lql_to_sheet_signature
 from arena.engine.adaptation import PassThroughAdaptationStrategy
 from arena.engine.classes import ClassUnderTest
-from arena.engine.ssntestdriver import interpret_sheet, run_sheet, InvocationListener, Test
+from arena.engine.ssntestdriver import interpret_sheet, run_sheet, InvocationListener, Test, TestInvocation
 from arena.lql.lqlparser import parse_lql
 from arena.ssn.ssnparser import parse_sheet
 
@@ -46,7 +47,7 @@ def test_srm_list():
     cuts = [ClassUnderTest("1", list), ClassUnderTest("2", deque)]
 
     # create stimulus matrix
-    sm = parse_stimulus_matrix([Sheet("test1", ssn_jsonl, lql)], cuts)
+    sm = parse_stimulus_matrix([Sheet("test1()", ssn_jsonl, lql)], cuts, [SheetInvocation("test1", "")])
     logger.debug(sm.to_string())
 
     # run stimulus matrix
@@ -89,8 +90,10 @@ def test_list():
     """
     parsed_sheet = parse_sheet(ssn_jsonl)
 
+    sheet_signature = lql_to_sheet_signature("test1()")
+
     # interpret (resolve bindings)
-    invocations = interpret_sheet(Test("test1", parsed_sheet, parse_result.interface))
+    invocations = interpret_sheet(TestInvocation(Test(sheet_signature.get_name(), parsed_sheet, parse_result.interface, sheet_signature), ""))
     logger.debug(invocations)
 
     assert 5 == len(invocations.sequence)
@@ -132,8 +135,10 @@ def test_queue():
     """
     parsed_sheet = parse_sheet(ssn_jsonl)
 
+    sheet_signature = lql_to_sheet_signature("test1()")
+
     # interpret (resolve bindings)
-    invocations = interpret_sheet(Test("test1", parsed_sheet, parse_result.interface))
+    invocations = interpret_sheet(TestInvocation(Test(sheet_signature.get_name(), parsed_sheet, parse_result.interface, sheet_signature), ""))
     logger.debug(invocations)
 
     assert 5 == len(invocations.sequence)

@@ -21,10 +21,21 @@ class Test:
     A resolved stimulus sheet subject for testing
     """
 
-    def __init__(self, name: str, parsed_sheet: ParsedSheet, interface_specification: Interface):
+    def __init__(self, name: str, parsed_sheet: ParsedSheet, interface_specification: Interface, signature):
         self.name = name
         self.parsed_sheet = parsed_sheet
         self.interface_specification = interface_specification
+        self.signature = signature
+
+
+class TestInvocation:
+    """
+    A test invocation
+    """
+
+    def __init__(self, test: Test, invocation: str):
+        self.test = test
+        self.invocation = invocation
 
 
 class Parameter:
@@ -241,8 +252,8 @@ class Invocations:
     Invocations model for a sequence of invocations
     """
 
-    def __init__(self, test: Test, interface_mapping):
-        self.test = test
+    def __init__(self, test_invocation: TestInvocation, interface_mapping):
+        self.test_invocation = test_invocation
         self.sequence = []
         self.interface_mapping = interface_mapping
 
@@ -381,7 +392,14 @@ def resolve_parameter_type(invocations: Invocations, arg: ParsedCell):
 
     if arg.is_test_parameter():
         # ?pX
-        pass
+        value = arg.value
+        param = value.partition("?")[2]
+        logger.debug(f"found test parameter {param}")
+
+        # FIXME implement
+
+        # invocations.test_invocation
+        raise Exception("not yet implemented")
 
     # is code expression
     out_val = None
@@ -583,7 +601,7 @@ def lql_to_python_class(interface_specification: Interface):
     return InterfaceMapping(interface_specification, adapter_clazz, mapping)
 
 
-def interpret_sheet(test: Test):
+def interpret_sheet(test_invocation: TestInvocation):
     """
     Interpretation (dry) run of parsed sheet (resolves all bindings)
 
@@ -591,9 +609,11 @@ def interpret_sheet(test: Test):
     :return:
     """
 
+    test = test_invocation.test
+
     interface_mapping = lql_to_python_class(test.interface_specification)
 
-    invocations = Invocations(test, interface_mapping)
+    invocations = Invocations(test_invocation, interface_mapping)
 
     for parsed_row in test.parsed_sheet.rows:
         output = parsed_row.get_output()

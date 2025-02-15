@@ -1,11 +1,13 @@
 import logging
+from inspect import signature
 
 import pandas as pd
 
 from arena.engine.adaptation import PassThroughAdaptationStrategy, AdaptedImplementation
+from arena.engine.classes import ClassUnderTest
 from arena.engine.ssntestdriver import InvocationListener, run_sheet, interpret_sheet, Test, ExecutedInvocation, \
-    CodeInvocation, InstanceInvocation, MethodInvocation, Obj
-from arena.lql.lqlparser import parse_lql, Interface
+    CodeInvocation, InstanceInvocation, MethodInvocation, Obj, TestInvocation
+from arena.lql.lqlparser import parse_lql, Interface, MethodSignature
 from arena.ssn.ssnparser import parse_sheet, ParsedSheet
 
 
@@ -17,13 +19,49 @@ class Sheet:
     A stimulus sheet
     """
 
-    def __init__(self, name: str, body: str, interface_lql: str):
-        self.name = name
+    def __init__(self, signature: str, body: str, interface_lql: str):
+        self.signature = signature
         self.body = body
         self.interface_lql = interface_lql
 
 
-def parse_stimulus_matrix(sheets: [Sheet], cuts: list) -> pd.DataFrame:
+class SheetInvocation:
+    """
+    A sheet invocation
+    """
+
+    def __init__(self, name: str, invocation: str):
+        self.name = name
+        self.invocation = invocation
+
+
+class SheetSignature:
+
+    def __init__(self, method: MethodSignature):
+        self.method = method
+
+
+    def get_name(self):
+        return self.method.name
+
+
+def lql_to_sheet_signature(sheet_signature: str) -> SheetSignature:
+    """
+    Create Sheet signature
+
+    :param sheet_signature:
+    :return:
+    """
+
+    lql = "$ {" + sheet_signature + "}"
+    parse_result = parse_lql(lql)
+    interface = parse_result.interface
+    method_signature = interface.get_methods()[0]
+
+    return SheetSignature(method_signature)
+
+
+def parse_stimulus_matrix(sheets: [Sheet], cuts: [ClassUnderTest], sheet_invocations: [SheetInvocation]) -> pd.DataFrame:
     """
     Parse stimulus matrix
 
@@ -36,13 +74,20 @@ def parse_stimulus_matrix(sheets: [Sheet], cuts: list) -> pd.DataFrame:
     for sheet in sheets:
         parsed_sheet = parse_sheet(sheet.body)
         parse_lql_result = parse_lql(sheet.interface_lql)
-        tests.append(Test(sheet.name, parsed_sheet, parse_lql_result.interface))
+
+        sheet_signature = lql_to_sheet_signature(sheet.signature)
+
+        tests.append(Test(sheet_signature.get_name(), parsed_sheet, parse_lql_result.interface, sheet_signature))
 
     data = {}
     for cut in cuts:
         test_invocations = []
         for test in tests:
-            test_invocations.append(test)
+            #sheet_invocations
+            filtered_sheet_invocations = [x for x in sheet_invocations if x.name == test.name]
+
+            for sheet_invocation in filtered_sheet_invocations:
+                test_invocations.append(TestInvocation(test, sheet_invocation.invocation))
 
         data[cut] = test_invocations
 
@@ -67,18 +112,18 @@ def run_sheets(sm: pd.DataFrame, limit_adapters: int, invocation_listener: Invoc
     for cut in sm.columns:
         logger.debug(f"processing cut {cut}")
         # pick some random test
-        random_test = sm[cut].iloc[0]
+        random_test_invocation = sm[cut].iloc[0]
 
         adaptation_strategy = PassThroughAdaptationStrategy()
-        adapted_implementations = adaptation_strategy.adapt(random_test.interface_specification, cut, limit_adapters)
+        adapted_implementations = adaptation_strategy.adapt(random_test_invocation.test.interface_specification, cut, limit_adapters)
 
         for adapted_implementation in adapted_implementations:
             logger.debug(f" Adapted implementation {adapted_implementation.adapter_id} of class under test {adapted_implementation.cut.class_under_test}")
 
             executed_tests = []
-            for test in sm[cut]:
+            for test_invocation in sm[cut]:
                 # interpret (resolve bindings)
-                invocations = interpret_sheet(test)
+                invocations = interpret_sheet(test_invocation)
 
                 # run
                 executed_invocations = run_sheet(invocations, adapted_implementation, invocation_listener)
