@@ -94,9 +94,8 @@ class MethodInvocation(MemberInvocation):
 
         logger.debug(f"resolving cut method member for {self.member}")
 
-        # functions?
-        # special len() function
-        if self.member == len:
+        # builtin functions: e.g., special len() function
+        if inspect.isbuiltin(self.member):
             try:
                 logger.debug(f"Built in function {self.member}")
                 # we need target instance
