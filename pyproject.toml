@@ -31,3 +31,11 @@ classifiers = [
 
 [project.urls]
 Homepage = "https://github.com/SoftwareObservatorium/"
+
+[tool.hatch.build.targets.wheel]
+packages = ["arena"]
+
+[tool.hatch.envs.test]
+dependencies = [
+    "pytest"
+]

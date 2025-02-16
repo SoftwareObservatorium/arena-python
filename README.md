@@ -2,6 +2,26 @@
 
 work in progress
 
+## Install
+
+project is managed with `hatch` (https://hatch.pypa.io/latest/)
+
+```commandline
+pip install hatch
+```
+
+Build project
+
+```commandline
+python -m hatch build
+```
+
+Test project
+
+```commandline
+python -m hatch test
+```
+
 ## LQL Parser
 
 LQL parser in python using antlr4 grammar
