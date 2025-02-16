@@ -27,7 +27,7 @@ before_script:
 
 test:
   script:
-    - python -m hatch run tests:run
+    - python -m hatch test
 
 run:
   script:
