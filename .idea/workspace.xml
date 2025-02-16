@@ -5,13 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7a04b348-b7e1-4004-bf43-c3452fe416f3" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/tests/classes_test.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/arena/engine/artifacts.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/code-samples/base64/917239ca-5093-44a6-a284-64e1acb8ccac/candidate.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/code-samples/base64/c108afda-e52c-454b-a7ed-c05f48257a9b/candidate.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/code-samples/base64/c9571f41-161b-46ed-a528-941d96a0dd2b/candidate.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/artifacts_test.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/arena/engine/classes.py" beforeDir="false" afterPath="$PROJECT_DIR$/arena/engine/classes.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/arena/engine/ssntestdriver.py" beforeDir="false" afterPath="$PROJECT_DIR$/arena/engine/ssntestdriver.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tests/arena_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/arena_test.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/lqlparser_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/lqlparser_test.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/ssnparser_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/ssnparser_test.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,7 +46,9 @@
     "Python tests.Python tests for arena_test.test_queue.executor": "Run",
     "Python tests.Python tests for arena_test.test_queue_code_expression.executor": "Run",
     "Python tests.Python tests for arena_test.test_queue_parameterized_sheet.executor": "Run",
+    "Python tests.Python tests for arena_test.test_srm_base64_external.executor": "Run",
     "Python tests.Python tests for arena_test.test_srm_list.executor": "Run",
+    "Python tests.Python tests for artifacts_test.test_from_local_directory.executor": "Run",
     "Python tests.Python tests for classes_test.test_load_by_name.executor": "Run",
     "Python tests.Python tests for debugging_test.test.executor": "Run",
     "Python tests.Python tests for lqlparser_test.test_parse.executor": "Run",
@@ -61,17 +64,20 @@
     "Python tests.Python tests in tests.executor": "Run",
     "Python.arena.executor": "Run",
     "Python.classloader.executor": "Run",
+    "Python.load.executor": "Run",
     "Python.main.executor": "Run",
     "Python.pan.executor": "Run",
     "Python.parser.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "master",
-    "last_opened_file_path": "/home/marcus/PycharmProjects/arena-python",
+    "last_opened_file_path": "/home/marcus/PycharmProjects/arena-python/arena/engine",
     "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
   }
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/arena/engine" />
+      <recent name="$PROJECT_DIR$/tests" />
       <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/arena" />
     </key>
@@ -82,8 +88,30 @@
       <recent name="$PROJECT_DIR$/arena/" />
     </key>
   </component>
-  <component name="RunManager" selected="Python tests.Python tests in tests">
-    <configuration name="Python tests for arena_test.test_queue_code_expression" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Python tests.Python tests for arena_test.test_srm_base64_external">
+    <configuration name="load" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="arena-python" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/tests/load.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Python tests for arena_test.test_srm_base64_external" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="arena-python" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -94,11 +122,11 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;arena_test.test_queue_code_expression&quot;" />
+      <option name="_new_target" value="&quot;arena_test.test_srm_base64_external&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests for arena_test.test_queue_parameterized_sheet" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests for artifacts_test.test_from_local_directory" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="arena-python" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -109,11 +137,11 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;arena_test.test_queue_parameterized_sheet&quot;" />
+      <option name="_new_target" value="&quot;artifacts_test.test_from_local_directory&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests for arena_test.test_srm_list" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests in classes_test.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="arena-python" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -124,22 +152,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;arena_test.test_srm_list&quot;" />
-      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
-      <method v="2" />
-    </configuration>
-    <configuration name="Python tests in arena_test.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
-      <module name="arena-python" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/tests/arena_test.py&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/tests/classes_test.py&quot;" />
       <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
@@ -160,11 +173,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python tests.Python tests for arena_test.test_srm_base64_external" />
+        <item itemvalue="Python tests.Python tests for artifacts_test.test_from_local_directory" />
+        <item itemvalue="Python tests.Python tests in classes_test.py" />
+        <item itemvalue="Python.load" />
         <item itemvalue="Python tests.Python tests in tests" />
-        <item itemvalue="Python tests.Python tests for arena_test.test_queue_code_expression" />
-        <item itemvalue="Python tests.Python tests for arena_test.test_queue_parameterized_sheet" />
-        <item itemvalue="Python tests.Python tests for arena_test.test_srm_list" />
-        <item itemvalue="Python tests.Python tests in arena_test.py" />
       </list>
     </recent_temporary>
   </component>
