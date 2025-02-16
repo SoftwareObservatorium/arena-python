@@ -54,6 +54,13 @@ SMs and SRMs are based on pandas DataFrame
 
 ## Demonstration
 
+### Jupyter Notebooks
+
+see examples in [notebooks](notebooks/)
+
+* [base64_example.ipynb](notebooks/base64_example.ipynb)
+* [list_example.ipynb](notebooks/list_example.ipynb)
+
 Tests that demonstrate the arena test driver can be found in [tests/](tests/).
 
 * [arena_test.py](tests/arena_test.py) contains integration tests (system tests)
