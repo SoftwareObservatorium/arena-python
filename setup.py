@@ -4,7 +4,9 @@ setup(
     install_requires=[
         "antlr4-python3-runtime~=4.13.2",
         "pandas~=2.2.3",
-        "coverage~=7.6.12"
+        "coverage~=7.6.12",
+        "mutmut~=3.2.3",
+        "parso~=0.8.4"
     ],
     name='arena-python',
     version='0.1',
