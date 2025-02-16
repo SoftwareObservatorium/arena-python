@@ -1,7 +1,7 @@
 import logging
-import os
 import sys
 
+import main
 from arena.arena import parse_stimulus_matrix, Sheet, run_sheets, collect_actuation_sheets, SheetInvocation, \
     lql_to_sheet_signature
 from arena.engine.adaptation import PassThroughAdaptationStrategy
@@ -93,7 +93,7 @@ def test_srm_base64_external():
     """
 
     # classes under test
-    base_folder = f"{os.getcwd()}/../code-samples/base64/"
+    base_folder = f"{main.PROJECT_ROOT}/code-samples/base64/"
     c1 = CodeCandidate("917239ca-5093-44a6-a284-64e1acb8ccac", "Base64", f"{base_folder}/917239ca-5093-44a6-a284-64e1acb8ccac/candidate.py")
     c2 = CodeCandidate("c108afda-e52c-454b-a7ed-c05f48257a9b", "Base64", f"{base_folder}/c108afda-e52c-454b-a7ed-c05f48257a9b/candidate.py")
     c3 = CodeCandidate("c9571f41-161b-46ed-a528-941d96a0dd2b", "Base64", f"{base_folder}/c9571f41-161b-46ed-a528-941d96a0dd2b/candidate.py")

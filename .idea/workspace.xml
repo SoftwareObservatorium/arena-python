@@ -5,14 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7a04b348-b7e1-4004-bf43-c3452fe416f3" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/arena/engine/artifacts.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/code-samples/base64/917239ca-5093-44a6-a284-64e1acb8ccac/candidate.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/code-samples/base64/c108afda-e52c-454b-a7ed-c05f48257a9b/candidate.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/code-samples/base64/c9571f41-161b-46ed-a528-941d96a0dd2b/candidate.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/artifacts_test.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/arena/engine/classes.py" beforeDir="false" afterPath="$PROJECT_DIR$/arena/engine/classes.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tests/arena_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/arena_test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/artifacts_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/artifacts_test.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -89,7 +85,7 @@
     </key>
   </component>
   <component name="RunManager" selected="Python tests.Python tests for arena_test.test_srm_base64_external">
-    <configuration name="load" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="arena-python" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -98,11 +94,11 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/tests/load.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -174,10 +170,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python tests.Python tests for arena_test.test_srm_base64_external" />
+        <item itemvalue="Python.main" />
+        <item itemvalue="Python tests.Python tests in tests" />
         <item itemvalue="Python tests.Python tests for artifacts_test.test_from_local_directory" />
         <item itemvalue="Python tests.Python tests in classes_test.py" />
-        <item itemvalue="Python.load" />
-        <item itemvalue="Python tests.Python tests in tests" />
       </list>
     </recent_temporary>
   </component>

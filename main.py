@@ -1,4 +1,5 @@
 import logging
+import os.path
 import sys
 
 from arena.engine.adaptation import AdaptedImplementation
@@ -14,6 +15,9 @@ handler.setLevel(logging.DEBUG)
 formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 handler.setFormatter(formatter)
 logger.addHandler(handler)
+
+
+PROJECT_ROOT = os.path.dirname(__file__)
 
 
 if __name__ == '__main__':
