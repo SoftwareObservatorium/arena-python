@@ -1,6 +1,5 @@
 import logging
 import sys
-from collections import deque
 
 from arena.arena import parse_stimulus_matrix, Sheet, run_sheets, collect_actuation_sheets, SheetInvocation, \
     lql_to_sheet_signature
@@ -44,11 +43,15 @@ def test_srm_list():
     """
 
     # classes under test
-    cuts = [ClassUnderTest("1", list), ClassUnderTest("2", deque)]
+    #    cuts = [ClassUnderTest("1", list), ClassUnderTest("2", collections.deque)] works as well
+    cuts = [ClassUnderTest("1", "list"), ClassUnderTest("2", "collections.deque")]
 
     # create stimulus matrix
     sm = parse_stimulus_matrix([Sheet("test1()", ssn_jsonl, lql)], cuts, [SheetInvocation("test1", "")])
     logger.debug(sm.to_string())
+
+    assert len(sm.columns) == 2
+    assert len(sm.index) == 1
 
     # run stimulus matrix
     invocation_listener = InvocationListener()
@@ -56,10 +59,16 @@ def test_srm_list():
     # results based on internal ExecutedInvocation
     logger.debug(srm.to_string())
 
+    assert len(srm.columns) == 2
+    assert len(srm.index) == 1
+
     # create actuation sheets, now we have the real stimulus response matrix (SRM)
     srm_actuations = collect_actuation_sheets(srm)
 
     logger.debug(srm_actuations.to_string())
+
+    assert len(srm_actuations.columns) == 2
+    assert len(srm_actuations.index) == 1
 
 
 def test_list():
@@ -72,7 +81,7 @@ def test_list():
     parse_result = parse_lql(lql)
 
     # class under test
-    cut = ClassUnderTest("1", list)
+    cut = ClassUnderTest("1", "list")
 
     adaptation_strategy = PassThroughAdaptationStrategy()
     adapted_implementations = adaptation_strategy.adapt(parse_result.interface, cut, 1)
@@ -117,7 +126,7 @@ def test_queue():
     parse_result = parse_lql(lql)
 
     # class under test
-    cut = ClassUnderTest("1", deque)
+    cut = ClassUnderTest("1", "collections.deque")
 
     adaptation_strategy = PassThroughAdaptationStrategy()
     adapted_implementations = adaptation_strategy.adapt(parse_result.interface, cut, 1)
@@ -150,3 +159,104 @@ def test_queue():
 
     assert 5 == len(executed_invocations.executed_sequence)
     assert 'Hello World!' == executed_invocations.get_executed_invocation(3).output.value
+
+
+def test_queue_parameterized_sheet():
+    """
+    Parameterized sheets
+
+    :return:
+    """
+
+    # lql (interface specification)
+    lql = """Queue {
+        append(object)->void
+        pop()->object
+        len()->int }
+    """
+    parse_result = parse_lql(lql)
+
+    # class under test
+    cut = ClassUnderTest("1", "collections.deque")
+
+    adaptation_strategy = PassThroughAdaptationStrategy()
+    adapted_implementations = adaptation_strategy.adapt(parse_result.interface, cut, 1)
+
+    adapted_implementation = adapted_implementations[0]
+    logger.debug(f" Class under test {adapted_implementation.cut.class_under_test}")
+
+    # stimulus sheet
+    ssn_jsonl = """
+                {"cells": {"A1": {}, "B1": "create", "C1": "Queue"}}
+                {"cells": {"A2": {}, "B2": "append", "C2": "A1", "D2": "?p1"}}
+                {"cells": {"A3": 1,  "B3": "len",  "C3": "A1"}}
+                {"cells": {"A4": {}, "B4": "pop", "C4": "A1"}}
+                {"cells": {"A5": 0,  "B5": "len", "C5": "A1"}}
+    """
+    parsed_sheet = parse_sheet(ssn_jsonl)
+
+    sheet_signature = lql_to_sheet_signature("test1(p1=str)") # python types ...
+
+    # interpret (resolve bindings)
+    invocations = interpret_sheet(TestInvocation(Test(sheet_signature.get_name(), parsed_sheet, parse_result.interface, sheet_signature), "'Hello World!'"))
+    logger.debug(invocations)
+
+    assert 5 == len(invocations.sequence)
+
+    # run on candidate implementation
+    invocation_listener = InvocationListener()
+    executed_invocations = run_sheet(invocations, adapted_implementation, invocation_listener)
+    logger.debug(executed_invocations)
+
+    assert 5 == len(executed_invocations.executed_sequence)
+    assert 'Hello World!' == executed_invocations.get_executed_invocation(3).output.value
+
+
+def test_queue_code_expression():
+    """
+    Code expressions
+
+    :return:
+    """
+
+    # lql (interface specification)
+    lql = """Queue {
+        append(object)->void
+        pop()->object
+        len()->int }
+    """
+    parse_result = parse_lql(lql)
+
+    # class under test
+    cut = ClassUnderTest("1", "collections.deque")
+
+    adaptation_strategy = PassThroughAdaptationStrategy()
+    adapted_implementations = adaptation_strategy.adapt(parse_result.interface, cut, 1)
+
+    adapted_implementation = adapted_implementations[0]
+    logger.debug(f" Class under test {adapted_implementation.cut.class_under_test}")
+
+    # stimulus sheet
+    ssn_jsonl = """
+                {"cells": {"A1": {}, "B1": "create", "C1": "Queue"}}
+                {"cells": {"A2": {}, "B2": "$eval", "C2": "['hello', 'world']"}}
+                {"cells": {"A3": {},  "B3": "append",  "C3": "A1", "C4": "A2"}}
+                {"cells": {"A4": {}, "B4": "pop", "C4": "A1"}}
+    """
+    parsed_sheet = parse_sheet(ssn_jsonl)
+
+    sheet_signature = lql_to_sheet_signature("test1()") # python types ...
+
+    # interpret (resolve bindings)
+    invocations = interpret_sheet(TestInvocation(Test(sheet_signature.get_name(), parsed_sheet, parse_result.interface, sheet_signature), ""))
+    logger.debug(invocations)
+
+    assert 4 == len(invocations.sequence)
+
+    # run on candidate implementation
+    invocation_listener = InvocationListener()
+    executed_invocations = run_sheet(invocations, adapted_implementation, invocation_listener)
+    logger.debug(executed_invocations)
+
+    assert 4 == len(executed_invocations.executed_sequence)
+    assert ['hello', 'world'] == executed_invocations.get_executed_invocation(3).output.value

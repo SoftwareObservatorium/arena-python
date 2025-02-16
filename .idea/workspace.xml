@@ -5,10 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7a04b348-b7e1-4004-bf43-c3452fe416f3" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/tests/classes_test.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/arena/arena.py" beforeDir="false" afterPath="$PROJECT_DIR$/arena/arena.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arena/engine/classes.py" beforeDir="false" afterPath="$PROJECT_DIR$/arena/engine/classes.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/arena/engine/ssntestdriver.py" beforeDir="false" afterPath="$PROJECT_DIR$/arena/engine/ssntestdriver.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tests/arena_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/arena_test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/lqlparser_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/lqlparser_test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/ssnparser_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/ssnparser_test.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,13 +43,17 @@
     "Python tests.Python tests for arena_test.test_deque.executor": "Run",
     "Python tests.Python tests for arena_test.test_list.executor": "Run",
     "Python tests.Python tests for arena_test.test_queue.executor": "Run",
+    "Python tests.Python tests for arena_test.test_queue_code_expression.executor": "Run",
+    "Python tests.Python tests for arena_test.test_queue_parameterized_sheet.executor": "Run",
     "Python tests.Python tests for arena_test.test_srm_list.executor": "Run",
+    "Python tests.Python tests for classes_test.test_load_by_name.executor": "Run",
     "Python tests.Python tests for debugging_test.test.executor": "Run",
     "Python tests.Python tests for lqlparser_test.test_parse.executor": "Run",
     "Python tests.Python tests for parser_test.test_is_cell_reference.executor": "Run",
     "Python tests.Python tests for parser_test.test_parse.executor": "Run",
     "Python tests.Python tests for ssnparser_test.test_parse.executor": "Run",
     "Python tests.Python tests in arena_test.py.executor": "Run",
+    "Python tests.Python tests in classes_test.py.executor": "Run",
     "Python tests.Python tests in debugging_test.py.executor": "Run",
     "Python tests.Python tests in lqlparser_test.py.executor": "Run",
     "Python tests.Python tests in parser_test.py.executor": "Run",
@@ -75,8 +82,8 @@
       <recent name="$PROJECT_DIR$/arena/" />
     </key>
   </component>
-  <component name="RunManager" selected="Python tests.Python tests for arena_test.test_list">
-    <configuration name="Python tests for arena_test.test_list" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Python tests.Python tests in tests">
+    <configuration name="Python tests for arena_test.test_queue_code_expression" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="arena-python" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -87,11 +94,11 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;arena_test.test_list&quot;" />
+      <option name="_new_target" value="&quot;arena_test.test_queue_code_expression&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests for arena_test.test_queue" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests for arena_test.test_queue_parameterized_sheet" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="arena-python" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -102,7 +109,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;arena_test.test_queue&quot;" />
+      <option name="_new_target" value="&quot;arena_test.test_queue_parameterized_sheet&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
@@ -153,11 +160,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python tests.Python tests for arena_test.test_list" />
-        <item itemvalue="Python tests.Python tests for arena_test.test_queue" />
-        <item itemvalue="Python tests.Python tests in arena_test.py" />
-        <item itemvalue="Python tests.Python tests for arena_test.test_srm_list" />
         <item itemvalue="Python tests.Python tests in tests" />
+        <item itemvalue="Python tests.Python tests for arena_test.test_queue_code_expression" />
+        <item itemvalue="Python tests.Python tests for arena_test.test_queue_parameterized_sheet" />
+        <item itemvalue="Python tests.Python tests for arena_test.test_srm_list" />
+        <item itemvalue="Python tests.Python tests in arena_test.py" />
       </list>
     </recent_temporary>
   </component>

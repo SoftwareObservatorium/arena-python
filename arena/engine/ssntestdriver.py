@@ -391,15 +391,30 @@ def resolve_parameter_type(invocations: Invocations, arg: ParsedCell):
         return p
 
     if arg.is_test_parameter():
-        # ?pX
+        # parametermized tests: ?pX
         value = arg.value
         param = value.partition("?")[2]
         logger.debug(f"found test parameter {param}")
 
-        # FIXME implement
+        # resolve test parameter value from signature
+        p_index = -1
+        for p in range(len(invocations.test_invocation.test.signature.method.inputNames)):
+            input_name = invocations.test_invocation.test.signature.method.inputNames[p]
+            if input_name is not None:
+                p_index = p
 
-        # invocations.test_invocation
-        raise Exception("not yet implemented")
+        if p_index < 0:
+            raise Exception(f"could not find test parameter {param}")
+
+        invocation_expression = invocations.test_invocation.invocation
+        param_values = eval_code_expression(f"[{invocation_expression}]") # evaluate as list ...
+        logger.debug(f"sheet invocation expression {invocation_expression} evaluated to {param_values}")
+        param_value = param_values[p_index]
+        param_value_type = type(param_value)
+
+        code_expr = invocation_expression.split(",")[p_index] # FIXME dangerous ..
+
+        return Parameter(param_value_type, code_expr, param_value)
 
     # is code expression
     out_val = None

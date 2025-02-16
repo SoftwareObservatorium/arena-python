@@ -1,4 +1,16 @@
+import logging
+import sys
+
 from arena.ssn.ssnparser import resolve_cell_reference, is_cell_reference, parse_sheet
+
+# logging
+logger = logging.getLogger()
+logger.setLevel(logging.DEBUG)
+handler = logging.StreamHandler(sys.stdout)
+handler.setLevel(logging.DEBUG)
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+handler.setFormatter(formatter)
+logger.addHandler(handler)
 
 
 def test_resolve_cell_reference():
