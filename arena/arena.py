@@ -1,14 +1,14 @@
 import logging
-from inspect import signature
 
 import pandas as pd
 
+from arena.measurement.codecoverage import create_coverage_for, get_metrics
 from arena.engine.adaptation import PassThroughAdaptationStrategy, AdaptedImplementation
 from arena.engine.classes import ClassUnderTest
 from arena.engine.ssntestdriver import InvocationListener, run_sheet, interpret_sheet, Test, ExecutedInvocation, \
     CodeInvocation, InstanceInvocation, MethodInvocation, Obj, TestInvocation
-from arena.lql.lqlparser import parse_lql, Interface, MethodSignature
-from arena.ssn.ssnparser import parse_sheet, ParsedSheet
+from arena.lql.lqlparser import parse_lql, MethodSignature
+from arena.ssn.ssnparser import parse_sheet
 
 
 logger = logging.getLogger(__name__)
@@ -98,7 +98,7 @@ def parse_stimulus_matrix(sheets: [Sheet], cuts: [ClassUnderTest], sheet_invocat
     return sm
 
 
-def run_sheets(sm: pd.DataFrame, limit_adapters: int, invocation_listener: InvocationListener) -> pd.DataFrame:
+def run_sheets(sm: pd.DataFrame, limit_adapters: int, invocation_listener: InvocationListener, measure_code_coverage: bool = False) -> pd.DataFrame:
     """
     Run stimulus matrix and return Stimulus Response Matrix (pandas DataFrame)
 
@@ -121,6 +121,12 @@ def run_sheets(sm: pd.DataFrame, limit_adapters: int, invocation_listener: Invoc
             logger.debug(f" Adapted implementation {adapted_implementation.adapter_id} of class under test {adapted_implementation.cut.class_under_test}")
 
             executed_tests = []
+
+            # only do code coverage for code candidates which have a code module
+            code_coverage = None
+            if measure_code_coverage and adapted_implementation.cut.code_candidate is not None:
+                code_coverage = create_coverage_for(adapted_implementation.cut.code_candidate)
+                code_coverage.start()
             for test_invocation in sm[cut]:
                 # interpret (resolve bindings)
                 invocations = interpret_sheet(test_invocation)
@@ -129,6 +135,11 @@ def run_sheets(sm: pd.DataFrame, limit_adapters: int, invocation_listener: Invoc
                 executed_invocations = run_sheet(invocations, adapted_implementation, invocation_listener)
 
                 executed_tests.append(executed_invocations)
+
+            if code_coverage is not None:
+                code_coverage.stop()
+                # FIXME create pandas SRM
+                measures = get_metrics(code_coverage, adapted_implementation.cut.code_candidate)
 
             data[adapted_implementation] = executed_tests
 

@@ -3,7 +3,8 @@ from setuptools import setup
 setup(
     install_requires=[
         "antlr4-python3-runtime~=4.13.2",
-        "pandas~=2.2.3"
+        "pandas~=2.2.3",
+        "coverage~=7.6.12"
     ],
     name='arena-python',
     version='0.1',

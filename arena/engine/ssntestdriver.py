@@ -2,6 +2,7 @@ import inspect
 import logging
 import random
 import string
+import time
 
 from arena.engine.adaptation import AdaptedImplementation
 from arena.execution import eval_code_expression, exec_code, create_callable
@@ -744,10 +745,15 @@ def run_sheet(invocations: Invocations, adapted_implementation: AdaptedImplement
             logger.warning(e)
 
         # execute the invocation
+        start_time = time.time()
         try:
             invocation.execute(executed_invocations, executed_invocation, adapted_implementation)
         except Exception as e:
             logger.warning(e)
+
+        end_time = time.time()
+        execution_time = int((end_time - start_time) * 1_000_000)  # Convert to microseconds
+        logger.debug(f"sheet execution took {execution_time} microseconds")
 
         # after execution invocation
         try:
