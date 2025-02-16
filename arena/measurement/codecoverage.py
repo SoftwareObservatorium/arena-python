@@ -43,16 +43,22 @@ def get_metrics(cov: coverage.Coverage, code_candidate: CodeCandidate):
 
         # open file
         with open(fp.name, mode='rb') as f:
-            parsed_json = json.load(f)
-            logger.debug(f"coverage report {parsed_json}")
+            try:
+                parsed_json = json.load(f)
+                logger.debug(f"coverage report {parsed_json}")
 
-            # FIXME create observations for SRM
-            candidate_measurement = parsed_json["files"][code_candidate.folder]
+                # assume first key is candidate
+                first_file = next(iter(parsed_json["files"]))
 
-            measures['branches.total'] = candidate_measurement["summary"]["num_branches"]
-            measures['branches.covered'] = candidate_measurement["summary"]["covered_branches"]
-            measures['branches.missed'] = candidate_measurement["summary"]["missing_branches"]
+                # FIXME create observations for SRM
+                candidate_measurement = parsed_json["files"][first_file]
 
-            logger.debug(f"coverage report for branches {measures}")
+                measures['branches.total'] = candidate_measurement["summary"]["num_branches"]
+                measures['branches.covered'] = candidate_measurement["summary"]["covered_branches"]
+                measures['branches.missed'] = candidate_measurement["summary"]["missing_branches"]
+
+                logger.debug(f"coverage report for branches {measures}")
+            except Exception as e:
+                raise e
 
     return measures
