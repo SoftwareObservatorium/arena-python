@@ -23,17 +23,16 @@ before_script:
   - pip install virtualenv
   - virtualenv venv
   - source venv/bin/activate
+  - python -m pip install hatch
 
 test:
   script:
-    - pip install tox  # you can also use tox
-    - pip install --editable ".[test]"
-    - tox -e py
+    - python -m hatch run tests:run
 
 run:
   script:
-    - pip install .
+    - python -m hatch build
     # run the command here
   artifacts:
     paths:
-      - build/*
+      - dist/*.whl

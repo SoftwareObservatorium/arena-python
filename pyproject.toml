@@ -1,0 +1,33 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "arena-python"
+version = "2025.0.1"
+dependencies = [
+    "antlr4-python3-runtime~=4.13.2",
+    "pandas~=2.2.3",
+    "coverage~=7.6.12",
+    "mutmut~=3.2.3",
+    "parso~=0.8.4"
+]
+requires-python = ">=3.12"
+authors = [
+    { name = "Marcus Kessel", email = "marcus.kessel@uni-mannheim.de" }
+]
+maintainers = [
+    { name = "Marcus Kessel", email = "marcus.kessel@uni-mannheim.de" }
+]
+description = "LASSO Arena Test Driver for Python"
+readme = "README.md"
+license = "GPL-3.0"
+license-files = ["LICEN[CS]E.*"]
+keywords = ["testing", "test", "driver"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Programming Language :: Python"
+]
+
+[project.urls]
+Homepage = "https://github.com/SoftwareObservatorium/"

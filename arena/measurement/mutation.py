@@ -16,14 +16,15 @@ def create_mutants(code_candidate: CodeCandidate):
 
         parsed_source = parse(source)
 
-        # for type_, x, name_and_hash, mutant_name in yield_mutants_for_module(parsed_source, no_mutate_lines=[]):
-        #     logger.debug(f"mutant {type_} {x} {name_and_hash} {mutant_name}")
+        for type_, x, name_and_hash, mutant_name in yield_mutants_for_module(parsed_source, no_mutate_lines=[]):
+            logger.debug(f"mutant {type_} {x} {name_and_hash} {mutant_name}")
 
         mutants = [
             mutant
             for type_, mutant, _, _ in yield_mutants_for_module(parsed_source, {})
             if type_ == 'mutant'
         ]
-        logger.debug(f"mutant {mutants}")
 
         logger.debug(f"created {len(mutants)} mutants")
+
+        logger.debug(f"first mutant\n{mutants[0]}")
