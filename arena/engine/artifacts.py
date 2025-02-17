@@ -76,3 +76,65 @@ def import_classes_under_test(candidates: [CodeCandidate]) -> [ClassUnderTest]:
         cuts.append(cut)
 
     return cuts
+
+
+def write_module_and_import_cut(target_folder: str, candidate_id: str, code: str) -> [ClassUnderTest]:
+    """
+    Store code
+
+    :param target_folder:
+    :param candidate_id:
+    :return:
+    """
+
+    full_subfolder_path = os.path.join(target_folder, candidate_id)
+
+    if not os.path.exists(full_subfolder_path):
+        os.makedirs(full_subfolder_path)
+
+    # Create the text file
+    file_name = "candidate.py"
+    full_file_path = os.path.join(full_subfolder_path, file_name)
+
+    with open(full_file_path, 'w') as f:
+        f.write(code)
+
+    code_candidate = CodeCandidate(candidate_id, "", full_file_path)
+    cuts = import_classes_under_test([code_candidate])
+
+    return cuts[0]
+
+
+def write_modules_and_import_cuts(target_folder: str, code_solutions: list) -> [ClassUnderTest]:
+    """
+    Store code and return CUTs
+
+    :param target_folder:
+    :param code_solutions:
+    :return:
+    """
+
+    candidates = []
+    for c in range(len(code_solutions)):
+        code_solution = code_solutions[c]
+        candidate_id = f"{c}"
+
+        full_subfolder_path = os.path.join(target_folder, candidate_id)
+
+        if not os.path.exists(full_subfolder_path):
+            os.makedirs(full_subfolder_path)
+
+        # Create the text file
+        file_name = "candidate.py"
+        full_file_path = os.path.join(full_subfolder_path, file_name)
+
+        with open(full_file_path, 'w') as f:
+            f.write(code_solution)
+
+        code_candidate = CodeCandidate(candidate_id, "", full_file_path)
+        candidates.append(code_candidate)
+
+    cuts = import_classes_under_test(candidates)
+
+    return cuts
+

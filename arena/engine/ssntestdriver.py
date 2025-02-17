@@ -3,6 +3,7 @@ import logging
 import random
 import string
 import time
+from types import FunctionType
 
 from arena.engine.adaptation import AdaptedImplementation
 from arena.execution import eval_code_expression, exec_code, create_callable
@@ -37,6 +38,10 @@ class TestInvocation:
     def __init__(self, test: Test, invocation: str):
         self.test = test
         self.invocation = invocation
+
+
+    def __str__(self):
+        return f"{self.test.name}({self.invocation})"
 
 
 class Parameter:
@@ -143,11 +148,13 @@ class MethodInvocation(MemberInvocation):
 
             executed_invocation.adapted_member = cut_method
 
-            # call method/function
-            try:
+            # call method or function
+            method_inputs = inputs  # just inputs
+            if not type(resolved_member) is FunctionType:
                 # we need target instance for method call
-                method_inputs = [target_instance.value] + inputs # instance + inputs
+                method_inputs = [target_instance.value] + inputs  # instance + inputs
 
+            try:
                 logger.debug(f"calling {resolved_member} with args {method_inputs}")
 
                 result = resolved_member(*method_inputs)
@@ -190,7 +197,10 @@ class InstanceInvocation(MemberInvocation):
 
             if len(executed_invocations.invocations.interface_mapping.interface_specification.get_constructors()) < 1:
                 # get default instance of CUT
-                result = adapted_implementation.cut.class_under_test() # e.g., list()
+                if adapted_implementation.cut.is_module():
+                    result = "$CUT@module" # FIXME find good identifier of module
+                else:
+                    result = adapted_implementation.cut.class_under_test() # e.g., list()
             else:
                 # resolve signature
                 signature = executed_invocations.invocations.interface_mapping.lql_to_python_mapping[self.member]
@@ -203,11 +213,16 @@ class InstanceInvocation(MemberInvocation):
 
                 executed_invocation.adapted_member = cut_initializer
 
-                # call it
-                if len(inputs) > 0:
-                    result = resolved_member(*inputs)
+                if callable(resolved_member):
+                    logger.debug(f"init member is callable {resolved_member}")
+                    # call it
+                    if len(inputs) > 0:
+                        result = resolved_member(*inputs)
+                    else:
+                        result = resolved_member()
                 else:
-                    result = resolved_member()
+                    logger.debug(f"init member is not callable {resolved_member}")
+                    result = None
 
             obj.value = result
         except Exception as e:

@@ -4,7 +4,25 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7a04b348-b7e1-4004-bf43-c3452fe416f3" name="Changes" comment="" />
+    <list default="true" id="7a04b348-b7e1-4004-bf43-c3452fe416f3" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/arena/provider/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/arena/provider/gai.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/code-samples/base64_functions/917239ca-5093-44a6-a284-64e1acb8ccac/candidate.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/code-samples/base64_functions/c108afda-e52c-454b-a7ed-c05f48257a9b/candidate.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/code-samples/base64_functions/c9571f41-161b-46ed-a528-941d96a0dd2b/candidate.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/gai_test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arena/arena.py" beforeDir="false" afterPath="$PROJECT_DIR$/arena/arena.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arena/engine/adaptation.py" beforeDir="false" afterPath="$PROJECT_DIR$/arena/engine/adaptation.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arena/engine/artifacts.py" beforeDir="false" afterPath="$PROJECT_DIR$/arena/engine/artifacts.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arena/engine/classes.py" beforeDir="false" afterPath="$PROJECT_DIR$/arena/engine/classes.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arena/engine/ssntestdriver.py" beforeDir="false" afterPath="$PROJECT_DIR$/arena/engine/ssntestdriver.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arena/measurement/codecoverage.py" beforeDir="false" afterPath="$PROJECT_DIR$/arena/measurement/codecoverage.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/notebooks/base64_example.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/notebooks/base64_example.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/notebooks/list_example.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/notebooks/list_example.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/arena_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/arena_test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/classes_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/classes_test.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -21,9 +39,9 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 1
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 1
+}</component>
   <component name="ProjectId" id="2t1rSMItH59tRZAv21INtHAlwq7" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
@@ -38,11 +56,18 @@
     "Python tests.Python tests for arena_test.test_queue_code_expression.executor": "Run",
     "Python tests.Python tests for arena_test.test_queue_parameterized_sheet.executor": "Run",
     "Python tests.Python tests for arena_test.test_srm_base64_external.executor": "Run",
+    "Python tests.Python tests for arena_test.test_srm_base64_external_classes_code_coverage.executor": "Run",
     "Python tests.Python tests for arena_test.test_srm_base64_external_code_coverage.executor": "Run",
+    "Python tests.Python tests for arena_test.test_srm_base64_external_functions.executor": "Run",
     "Python tests.Python tests for arena_test.test_srm_list.executor": "Run",
+    "Python tests.Python tests for arena_test.test_srm_list_builtin.executor": "Run",
     "Python tests.Python tests for artifacts_test.test_from_local_directory.executor": "Run",
     "Python tests.Python tests for classes_test.test_load_by_name.executor": "Run",
+    "Python tests.Python tests for classes_test.test_module.executor": "Run",
     "Python tests.Python tests for debugging_test.test.executor": "Run",
+    "Python tests.Python tests for gai_test.test_prompt_code.executor": "Run",
+    "Python tests.Python tests for gai_test.test_prompt_code_ollama.executor": "Run",
+    "Python tests.Python tests for gai_test.test_prompt_code_openai.executor": "Run",
     "Python tests.Python tests for lqlparser_test.test_parse.executor": "Run",
     "Python tests.Python tests for mutants_test.test_create_mutants.executor": "Run",
     "Python tests.Python tests for parser_test.test_is_cell_reference.executor": "Run",
@@ -57,6 +82,7 @@
     "Python tests.Python tests in parser_test.py.executor": "Run",
     "Python tests.Python tests in ssnparser_test.py.executor": "Run",
     "Python tests.Python tests in tests.executor": "Run",
+    "Python tests.pytest for tests.arena_test.test_srm_list_builtin.executor": "Run",
     "Python.arena.executor": "Run",
     "Python.classloader.executor": "Run",
     "Python.load.executor": "Run",
@@ -64,13 +90,15 @@
     "Python.pan.executor": "Run",
     "Python.parser.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
     "git-widget-placeholder": "master",
-    "last_opened_file_path": "/home/marcus/PycharmProjects/arena-python/tests",
+    "last_opened_file_path": "/home/marcus/PycharmProjects/arena-python/code-samples",
     "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
   }
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/code-samples" />
       <recent name="$PROJECT_DIR$/tests" />
       <recent name="$PROJECT_DIR$/arena/engine" />
       <recent name="$PROJECT_DIR$" />
@@ -83,8 +111,8 @@
       <recent name="$PROJECT_DIR$/arena/" />
     </key>
   </component>
-  <component name="RunManager" selected="Python tests.Python tests in mutants_test.py">
-    <configuration name="Python tests for arena_test.test_srm_base64_external" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Python tests.pytest for tests.arena_test.test_srm_list_builtin">
+    <configuration name="Python tests for arena_test.test_srm_base64_external_classes_code_coverage" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="arena-python" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -95,11 +123,11 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;arena_test.test_srm_base64_external&quot;" />
+      <option name="_new_target" value="&quot;arena_test.test_srm_base64_external_classes_code_coverage&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests for arena_test.test_srm_base64_external_code_coverage" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests for arena_test.test_srm_list_builtin" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="arena-python" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -110,11 +138,11 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;arena_test.test_srm_base64_external_code_coverage&quot;" />
+      <option name="_new_target" value="&quot;arena_test.test_srm_list_builtin&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests for mutants_test.test_create_mutants" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests in arena_test.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="arena-python" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -125,22 +153,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;mutants_test.test_create_mutants&quot;" />
-      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
-      <method v="2" />
-    </configuration>
-    <configuration name="Python tests in mutants_test.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
-      <module name="arena-python" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/tests/mutants_test.py&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/tests/arena_test.py&quot;" />
       <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
@@ -159,20 +172,37 @@
       <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
+    <configuration name="pytest for tests.arena_test.test_srm_list_builtin" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
+      <module name="arena-python" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="$PROJECT_DIR$/.venv/bin/python" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_keywords" value="&quot;&quot;" />
+      <option name="_new_parameters" value="&quot;&quot;" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;tests.arena_test.test_srm_list_builtin&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python tests.Python tests in mutants_test.py" />
-        <item itemvalue="Python tests.Python tests for mutants_test.test_create_mutants" />
-        <item itemvalue="Python tests.Python tests for arena_test.test_srm_base64_external_code_coverage" />
+        <item itemvalue="Python tests.pytest for tests.arena_test.test_srm_list_builtin" />
+        <item itemvalue="Python tests.Python tests in arena_test.py" />
+        <item itemvalue="Python tests.Python tests for arena_test.test_srm_list_builtin" />
+        <item itemvalue="Python tests.Python tests for arena_test.test_srm_base64_external_classes_code_coverage" />
         <item itemvalue="Python tests.Python tests in tests" />
-        <item itemvalue="Python tests.Python tests for arena_test.test_srm_base64_external" />
       </list>
     </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-python-sdk-0e3be3396995-c546a90a8094-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-242.23339.19" />
+        <option value="bundled-python-sdk-fc1d50d2d915-aa17d162503b-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-243.24978.54" />
       </set>
     </attachedChunks>
   </component>

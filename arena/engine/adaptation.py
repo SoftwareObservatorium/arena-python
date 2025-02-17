@@ -46,6 +46,10 @@ class AdaptedImplementation:
         return AdaptedMethod(self, init_signature, init)
 
 
+    def __str__(self):
+        return f"{str(self.cut.id)}_{self.cut.variant_id}_{self.adapter_id}"
+
+
 class AdaptationStrategy:
     """
     Interface for adaptation strategies

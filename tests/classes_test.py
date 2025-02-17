@@ -1,5 +1,6 @@
 import collections
 import logging
+import os
 import sys
 from collections import deque
 
@@ -28,3 +29,8 @@ def test_load_by_name():
     # by fully-qualified class name works
     cut = ClassUnderTest("1", "collections.deque")
     assert cut.class_under_test is deque
+
+
+def test_module():
+    assert ClassUnderTest("1", os).is_module()
+    assert not ClassUnderTest("1", deque).is_module()

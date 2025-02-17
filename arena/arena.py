@@ -95,6 +95,18 @@ def parse_stimulus_matrix(sheets: [Sheet], cuts: [ClassUnderTest], sheet_invocat
 
     sm = pd.DataFrame.from_dict(data)
 
+    # set index with nice labels
+    row_labels = []
+    for test in tests:
+        # sheet_invocations
+        filtered_sheet_invocations = [x for x in sheet_invocations if x.name == test.name]
+
+        for sheet_invocation in filtered_sheet_invocations:
+            row_labels.append(f"{test.name}")
+
+    sm['tests'] = row_labels
+    sm.set_index('tests', inplace=True)
+
     return sm
 
 
@@ -143,7 +155,16 @@ def run_sheets(sm: pd.DataFrame, limit_adapters: int, invocation_listener: Invoc
 
             data[adapted_implementation] = executed_tests
 
-        srm = pd.DataFrame.from_dict(data)
+    srm = pd.DataFrame.from_dict(data)
+
+    # set index with nice labels
+    row_labels = []
+    for i, row in srm.iterrows():
+        executed_invocations = srm.iat[i, 0]
+        row_labels.append(f"{executed_invocations.invocations.test_invocation.test.name}")
+
+    srm['tests'] = row_labels
+    srm.set_index('tests', inplace=True)
 
     return srm
 
@@ -184,7 +205,12 @@ def collect_actuation_sheets(srm: pd.DataFrame) -> pd.DataFrame:
             actuations.append(pd.DataFrame.from_dict(actuation_data))
         data[adapted_implementation] = actuations
 
-    return pd.DataFrame.from_dict(data)
+    srm_actuations = pd.DataFrame.from_dict(data)
+
+    srm_actuations['tests'] = srm.index.copy()
+    srm_actuations.set_index('tests', inplace=True)
+
+    return srm_actuations
 
 
 def output_as_string(executed_invocation: ExecutedInvocation, adapted_implementation: AdaptedImplementation):

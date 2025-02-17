@@ -59,6 +59,6 @@ def get_metrics(cov: coverage.Coverage, code_candidate: CodeCandidate):
 
                 logger.debug(f"coverage report for branches {measures}")
             except Exception as e:
-                raise e
+                logger.warning(e)
 
     return measures

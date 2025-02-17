@@ -1,4 +1,5 @@
 import logging
+from types import ModuleType
 
 from arena.introspection import resolve_type_by_name
 
@@ -33,6 +34,9 @@ def load_from_candidate_module(candidate):
 
     logger.debug(f"trying to load {candidate.clazz_name} from candidate module {candidate.code_module}")
 
+    if len(candidate.clazz_name) == 0:
+        return candidate.code_module
+
     return getattr(candidate.code_module, candidate.clazz_name)
 
 
@@ -43,7 +47,7 @@ class ClassUnderTest:
 
     def __init__(self, id: str, class_under_test, code_candidate = None):
         self.id = id
-
+        self.variant_id = "original"
         self.code_candidate = code_candidate
 
         if isinstance(class_under_test, str):
@@ -53,3 +57,18 @@ class ClassUnderTest:
                 self.class_under_test = load_by_name(class_under_test)
         else:
             self.class_under_test = class_under_test
+
+
+    def is_module(self):
+        """
+        Is the unit under test a module or class
+
+        :return:
+        """
+
+        return type(self.class_under_test) is ModuleType
+
+
+    def __str__(self):
+        return f"{self.id}_{self.variant_id}"
+
