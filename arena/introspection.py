@@ -58,77 +58,12 @@ def resolve_operation(clazz, operation_name, input_types):
     return op
 
 
-# def instantiate_with_reflection(cls, *args):
-#     """
-#     Dynamically instantiates a class based on its constructor parameters.
-#
-#     Args:
-#         cls (type): The class to instantiate.
-#         *args: A tuple of values to pass as arguments.
-#
-#     Returns:
-#         Instance of the specified class.
-#     """
-#     # Check if __init__ is present
-#     if not hasattr(cls, '__init__'):
-#         raise TypeError(f"Class {cls.__name__} does not have an __init__ method.")
-#
-#     sig = inspect.signature(cls.__init__)
-#     bound_arguments = sig.bind(*args)
-#     bound_arguments.apply_defaults()
-#
-#     # Prepare the arguments for instantiation
-#     prepare_args = []
-#     for name, param in sig.parameters.items():
-#         if param.default == inspect.Parameter.empty:
-#             raise TypeError(f"Missing required argument: {name}")
-#
-#         value = args[index]
-#         typehint = param.annotation
-#         if isinstance(value, type) and typehint is not type:
-#             raise TypeError(f"Type mismatch for parameter '{name}': expected {typehint}, got {type(value)}")
-#
-#         prepare_args.append((name, value))
-#
-#     # Create the instance
-#     instance = cls.__prepare__(*args)
-#     for name, value in prepare_args:
-#         setattr(instance, name, value)
-#     return instance
-#
-#
-# try:
-#     obj = instantiate_with_reflection(MyClass, arg1=value1, arg2=value2)
-# except Exception as e:
-#     print(f"Failed to instantiate class: {e}")
+def get_source_code(code_unit):
+    """
+    Obtain source code
 
-# def method_matches(instance_class):
-#     def predicate(self, *args):
-#         for name in dir(instance_class):
-#             attr = getattr(instance_class, name)
-#             if callable(attr) and isinstance(attr, MethodType):
-#                 sig = inspect.signature(attr)
-#                 try:
-#                     bound_arguments = sig.bind(self.__dict__.copy(), *args)
-#                 except TypeError as e:
-#                     continue
-#                 else:
-#                     for param in sig.parameters.values():
-#                         annotation = param.annotation
-#                         if not isinstance(bound_arguments.get(param.name, None), annotation):
-#                             return False
-#                     return True
-#         return False
-#
-#     return predicate
-#
-#
-# # Usage example:
-# class MyClass:
-#     def my_method(self, a: int, b: str) -> bool:
-#         return a > 5 and b.startswith('test')
-#
-#
-# MyClass.my_method = method_matches(MyClass)
-# instance = MyClass()
-# print(MyClass.my_method(instance, 10, 'testing'))  # Should print True
+    :param code_unit:
+    :return:
+    """
+
+    return inspect.getsource(code_unit)

@@ -1,8 +1,7 @@
 import logging
 from types import ModuleType
 
-from arena.introspection import resolve_type_by_name
-
+from arena.introspection import resolve_type_by_name, get_source_code
 
 logger = logging.getLogger(__name__)
 
@@ -50,6 +49,7 @@ class ClassUnderTest:
         self.variant_id = "original"
         self.code_candidate = code_candidate
 
+        # FIXME better naming for CUT - should be code unit in Python (module, class)
         if isinstance(class_under_test, str):
             if code_candidate is not None:
                 self.class_under_test = load_from_candidate_module(code_candidate)
@@ -67,6 +67,10 @@ class ClassUnderTest:
         """
 
         return type(self.class_under_test) is ModuleType
+
+
+    def get_source_code(self):
+        return get_source_code(self.class_under_test)
 
 
     def __str__(self):
