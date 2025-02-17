@@ -58,8 +58,9 @@ SMs and SRMs are based on pandas DataFrame
 
 see examples in [notebooks](notebooks/)
 
-* [base64_example.ipynb](notebooks/base64_example.ipynb)
-* [list_example.ipynb](notebooks/list_example.ipynb)
+* [Load units under tests from local machine](notebooks/base64_example.ipynb)
+* [Use builtin types (collections example)](notebooks/list_example.ipynb)
+* [Use LLMs (via Ollama/OpenAI) to generate units under test (i.e., code candidates)](notebooks/llm_ollama_example.ipynb)
 
 Tests that demonstrate the arena test driver can be found in [tests/](tests/).
 
