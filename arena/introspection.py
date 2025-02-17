@@ -67,3 +67,18 @@ def get_source_code(code_unit):
     """
 
     return inspect.getsource(code_unit)
+
+
+def is_method(unit):
+    # return inspect.ismethod(unit) for whatever reason, this doesn't work reliably
+    if inspect.ismethod(unit):
+        return True
+
+    if not inspect.isfunction(unit):
+        return False
+
+    signature = inspect.signature(unit)
+    has_self = 'self' in signature.parameters.keys() # FIXME find better ways ..
+
+    return has_self
+

@@ -3,13 +3,13 @@ import logging
 import random
 import string
 import time
-from types import FunctionType
+from types import FunctionType, MethodType, MethodDescriptorType
 
 from arena.engine.adaptation import AdaptedImplementation
 from arena.execution import eval_code_expression, exec_code, create_callable
 from arena.lql.lqlparser import Interface
 from arena.ssn.ssnparser import ParsedSheet, ParsedCell, resolve_cell_reference
-from arena.introspection import resolve_type_by_name, resolve_constructor, resolve_operation, is_function
+from arena.introspection import resolve_type_by_name, resolve_constructor, resolve_operation, is_function, is_method
 
 logger = logging.getLogger(__name__)
 
@@ -150,7 +150,10 @@ class MethodInvocation(MemberInvocation):
 
             # call method or function
             method_inputs = inputs  # just inputs
-            if not type(resolved_member) is FunctionType:
+            logger.debug(f" type of member {type(resolved_member)}")
+            if isinstance(resolved_member, MethodDescriptorType) or isinstance(resolved_member, MethodType) or is_method(resolved_member):
+                logger.debug(f" resolved callable is method {resolved_member}")
+
                 # we need target instance for method call
                 method_inputs = [target_instance.value] + inputs  # instance + inputs
 

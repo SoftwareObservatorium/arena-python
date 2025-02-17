@@ -1,5 +1,4 @@
 class Base64:
-
     def base64_encode(self, data):
         chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/'
         index_chars = {char: i for i, char in enumerate(chars)}

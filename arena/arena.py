@@ -8,8 +8,7 @@ from arena.engine.classes import ClassUnderTest
 from arena.engine.ssntestdriver import InvocationListener, run_sheet, interpret_sheet, Test, ExecutedInvocation, \
     CodeInvocation, InstanceInvocation, MethodInvocation, Obj, TestInvocation
 from arena.lql.lqlparser import parse_lql, MethodSignature
-from arena.ssn.ssnparser import parse_sheet
-
+from arena.ssn.ssnparser import parse_sheet, parse_sheet_sequence
 
 logger = logging.getLogger(__name__)
 
@@ -19,7 +18,7 @@ class Sheet:
     A stimulus sheet
     """
 
-    def __init__(self, signature: str, body: str, interface_lql: str):
+    def __init__(self, signature: str, body, interface_lql: str):
         self.signature = signature
         self.body = body
         self.interface_lql = interface_lql
@@ -72,7 +71,12 @@ def parse_stimulus_matrix(sheets: [Sheet], cuts: [ClassUnderTest], sheet_invocat
 
     tests = []
     for sheet in sheets:
-        parsed_sheet = parse_sheet(sheet.body)
+        parsed_sheet = None
+        if isinstance(sheet.body, list):
+            parsed_sheet = parse_sheet_sequence(sheet.body)
+        else:
+            parsed_sheet = parse_sheet(sheet.body)
+
         parse_lql_result = parse_lql(sheet.interface_lql)
 
         sheet_signature = lql_to_sheet_signature(sheet.signature)

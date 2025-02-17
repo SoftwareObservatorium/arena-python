@@ -75,6 +75,20 @@ def parse_sheet(jsonl: str):
 
     return sheet
 
+
+def parse_sheet_sequence(sheet_sequence: list):
+    sheet = ParsedSheet()
+
+    for cells in sheet_sequence:
+        row = ParsedRow(sheet, [])
+        for key, value in cells.items():
+            cell = ParsedCell(row, key, value)
+            row.cells.append(cell)
+        sheet.rows.append(row)
+
+    return sheet
+
+
 import re
 
 def is_cell_reference(cell_reference):

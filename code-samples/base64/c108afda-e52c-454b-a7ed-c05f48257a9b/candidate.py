@@ -1,5 +1,4 @@
 class Base64:
-
     def base64_encode(self, data):
         if not isinstance(data, str):
             raise TypeError("Input must be a string.")
