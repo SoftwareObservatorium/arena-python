@@ -2,6 +2,8 @@
 
 work in progress
 
+For more information about the `arena` and the LASSO platform, visit our website: https://softwareobservatorium.github.io/
+
 ## Install
 
 project is managed with `hatch` (https://hatch.pypa.io/latest/)
