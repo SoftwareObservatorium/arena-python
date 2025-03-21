@@ -49,7 +49,7 @@ def test_srm_list_builtin_nojsonl():
     # stimulus sheet (as a data frame)
     ss = pd.DataFrame([
         {"A": {}, "B": "create", "C": "List"},
-        {"A": {}, "B": "append", "C": "A1", "D2": "'Hello World!'"},
+        {"A": {}, "B": "append", "C": "A1", "D": "'Hello World!'"},
         {"A": 1, "B": "len", "C": "A1"},
         {"A": {}, "B": "pop", "C": "A1"},
         {"A": 0, "B": "len", "C": "A1"}])
