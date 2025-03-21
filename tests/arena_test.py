@@ -1,6 +1,7 @@
 import logging
 import sys
 
+import pandas as pd
 import pytest
 
 import main
@@ -37,20 +38,28 @@ def test_srm_list_builtin_nojsonl():
         len()->int }
     """
 
-    # stimulus sheet
-    ssn_sequence = [
-        {"A1": {}, "B1": "create", "C1": "List"},
-        {"A2": {}, "B2": "append", "C2": "A1", "D2": "'Hello World!'"},
-        {"A3": 1, "B3": "len", "C3": "A1"},
-        {"A4": {}, "B4": "pop", "C4": "A1"},
-        {"A5": 0, "B5": "len", "C5": "A1"}]
+    # # stimulus sheet
+    # ssn_sequence = [
+    #     {"A1": {}, "B1": "create", "C1": "List"},
+    #     {"A2": {}, "B2": "append", "C2": "A1", "D2": "'Hello World!'"},
+    #     {"A3": 1, "B3": "len", "C3": "A1"},
+    #     {"A4": {}, "B4": "pop", "C4": "A1"},
+    #     {"A5": 0, "B5": "len", "C5": "A1"}]
+
+    # stimulus sheet (as a data frame)
+    ss = pd.DataFrame([
+        {"A": {}, "B": "create", "C": "List"},
+        {"A": {}, "B": "append", "C": "A1", "D2": "'Hello World!'"},
+        {"A": 1, "B": "len", "C": "A1"},
+        {"A": {}, "B": "pop", "C": "A1"},
+        {"A": 0, "B": "len", "C": "A1"}])
 
     # classes under test
     #    cuts = [ClassUnderTest("1", list), ClassUnderTest("2", collections.deque)] works as well
     cuts = [ClassUnderTest("1", "list"), ClassUnderTest("2", "collections.deque")]
 
     # create stimulus matrix
-    sm = parse_stimulus_matrix([Sheet("test1()", ssn_sequence, lql)], cuts, [SheetInvocation("test1", "")])
+    sm = parse_stimulus_matrix([Sheet("test1()", ss, lql)], cuts, [SheetInvocation("test1", "")])
     logger.debug(sm.to_string())
 
     assert len(sm.columns) == 2

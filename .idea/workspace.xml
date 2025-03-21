@@ -5,8 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7a04b348-b7e1-4004-bf43-c3452fe416f3" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/arena/ssn/ssn_utilities.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/ssn_utilities_test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arena/arena.py" beforeDir="false" afterPath="$PROJECT_DIR$/arena/arena.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arena/ssn/ssnparser.py" beforeDir="false" afterPath="$PROJECT_DIR$/arena/ssn/ssnparser.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/notebooks/base64_example.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/notebooks/base64_example.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/notebooks/list_example.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/notebooks/list_example.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/notebooks/llm_ollama_example.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/notebooks/llm_ollama_example.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/arena_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/arena_test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/gai_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/gai_test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/ssnparser_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/ssnparser_test.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,7 +69,12 @@
     "Python tests.Python tests for mutants_test.test_create_mutants.executor": "Run",
     "Python tests.Python tests for parser_test.test_is_cell_reference.executor": "Run",
     "Python tests.Python tests for parser_test.test_parse.executor": "Run",
+    "Python tests.Python tests for ssn_utilities_test.test_bla.executor": "Run",
+    "Python tests.Python tests for ssn_utilities_test.test_generate_rows_from_dict.executor": "Run",
+    "Python tests.Python tests for ssn_utilities_test.test_to_from.executor": "Run",
     "Python tests.Python tests for ssnparser_test.test_parse.executor": "Run",
+    "Python tests.Python tests for ssnparser_test.test_parse_dataframe.executor": "Run",
+    "Python tests.Python tests for ssnparser_test.test_parse_dataframe_collections.executor": "Run",
     "Python tests.Python tests in arena_test.py.executor": "Run",
     "Python tests.Python tests in artifacts_test.py.executor": "Run",
     "Python tests.Python tests in classes_test.py.executor": "Run",
@@ -76,17 +91,18 @@
     "Python.main.executor": "Run",
     "Python.pan.executor": "Run",
     "Python.parser.executor": "Run",
+    "Python.ssn_utilities.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "git-widget-placeholder": "main",
-    "last_opened_file_path": "/home/marcus/PycharmProjects/arena-python/code-samples",
+    "last_opened_file_path": "/home/marcus/PycharmProjects/arena-python/tests",
     "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
   }
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/code-samples" />
       <recent name="$PROJECT_DIR$/tests" />
+      <recent name="$PROJECT_DIR$/code-samples" />
       <recent name="$PROJECT_DIR$/arena/engine" />
       <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/arena" />
@@ -98,8 +114,8 @@
       <recent name="$PROJECT_DIR$/arena/" />
     </key>
   </component>
-  <component name="RunManager" selected="Python tests.Python tests in tests">
-    <configuration name="Python tests for arena_test.test_list" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Python tests.Python tests for ssnparser_test.test_parse_dataframe_collections">
+    <configuration name="Python tests for arena_test.test_srm_base64_external_classes" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="arena-python" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -110,11 +126,11 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;arena_test.test_list&quot;" />
+      <option name="_new_target" value="&quot;arena_test.test_srm_base64_external_classes&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests for arena_test.test_queue" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests for arena_test.test_srm_list_builtin_nojsonl" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="arena-python" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -125,11 +141,11 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;arena_test.test_queue&quot;" />
+      <option name="_new_target" value="&quot;arena_test.test_srm_list_builtin_nojsonl&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests for arena_test.test_queue_code_expression" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests for gai_test.test_prompt_code" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="arena-python" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -140,11 +156,11 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;arena_test.test_queue_code_expression&quot;" />
+      <option name="_new_target" value="&quot;gai_test.test_prompt_code&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests for arena_test.test_queue_parameterized_sheet" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests for ssnparser_test.test_parse_dataframe" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="arena-python" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -155,11 +171,11 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;arena_test.test_queue_parameterized_sheet&quot;" />
+      <option name="_new_target" value="&quot;ssnparser_test.test_parse_dataframe&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests in tests" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests for ssnparser_test.test_parse_dataframe_collections" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="arena-python" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -170,17 +186,17 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/tests&quot;" />
-      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <option name="_new_target" value="&quot;ssnparser_test.test_parse_dataframe_collections&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python tests.Python tests in tests" />
-        <item itemvalue="Python tests.Python tests for arena_test.test_queue_code_expression" />
-        <item itemvalue="Python tests.Python tests for arena_test.test_queue_parameterized_sheet" />
-        <item itemvalue="Python tests.Python tests for arena_test.test_queue" />
-        <item itemvalue="Python tests.Python tests for arena_test.test_list" />
+        <item itemvalue="Python tests.Python tests for ssnparser_test.test_parse_dataframe_collections" />
+        <item itemvalue="Python tests.Python tests for arena_test.test_srm_list_builtin_nojsonl" />
+        <item itemvalue="Python tests.Python tests for arena_test.test_srm_base64_external_classes" />
+        <item itemvalue="Python tests.Python tests for gai_test.test_prompt_code" />
+        <item itemvalue="Python tests.Python tests for ssnparser_test.test_parse_dataframe" />
       </list>
     </recent_temporary>
   </component>

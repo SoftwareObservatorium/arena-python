@@ -2,6 +2,7 @@ import logging
 import sys
 import time
 
+import pandas as pd
 import pytest
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_ollama import OllamaLLM
@@ -56,13 +57,19 @@ def test_prompt_code():
     """
 
     # stimulus sheet
-    ssn_jsonl = """
-                {"cells": {"A1": {}, "B1": "create", "C1": "GCD"}}
-                {"cells": {"A2": "5", "B2": "greatest_common_divisor", "C2": "A1", "D2": "25", "E2": "15"}}
-    """
+    # ssn_jsonl = """
+    #             {"cells": {"A1": {}, "B1": "create", "C1": "GCD"}}
+    #             {"cells": {"A2": "5", "B2": "greatest_common_divisor", "C2": "A1", "D2": "25", "E2": "15"}}
+    # """
+
+    # stimulus sheet (as a data frame)
+    ss = pd.DataFrame([
+        {"A": {}, "B": "create", "C": "GCD", "D": None, "E": None},
+        {"A": "5", "B": "greatest_common_divisor", "C": "A1", "D": "25", "E": "15"}
+    ])
 
     # create stimulus matrix
-    sm = parse_stimulus_matrix([Sheet("test1()", ssn_jsonl, lql)], cuts, [SheetInvocation("test1", "")])
+    sm = parse_stimulus_matrix([Sheet("test1()", ss, lql)], cuts, [SheetInvocation("test1", "")])
     logger.debug(sm.to_string())
 
     assert len(sm.columns) == 3

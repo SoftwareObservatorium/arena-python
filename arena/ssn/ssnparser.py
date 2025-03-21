@@ -1,6 +1,9 @@
 import json
 import logging
 
+import pandas
+
+from arena.ssn.ssn_utilities import dataframe_to_ssndict, convert_dict_to_row_dicts
 
 logger = logging.getLogger(__name__)
 
@@ -55,6 +58,13 @@ class ParsedCell:
 
 
 def parse_sheet(jsonl: str):
+    """
+    Parse sequence sheet from JSONL
+
+    :param jsonl:
+    :return:
+    """
+
     sheet = ParsedSheet()
     for line in jsonl.splitlines():
         # Strip any leading or trailing whitespace
@@ -77,6 +87,13 @@ def parse_sheet(jsonl: str):
 
 
 def parse_sheet_sequence(sheet_sequence: list):
+    """
+    Parse sequence sheet from a list of dicts
+
+    :param sheet_sequence:
+    :return:
+    """
+
     sheet = ParsedSheet()
 
     for cells in sheet_sequence:
@@ -85,6 +102,23 @@ def parse_sheet_sequence(sheet_sequence: list):
             cell = ParsedCell(row, key, value)
             row.cells.append(cell)
         sheet.rows.append(row)
+
+    return sheet
+
+
+def parse_sheet_dataframe(sheet_df: pandas.DataFrame):
+    """
+    Parse sequence sheet from Pandas DataFrame
+
+    :param sheet_df:
+    :return:
+    """
+
+    # Convert DataFrame back to dictionary
+    ssn_dict = dataframe_to_ssndict(sheet_df)
+
+    list_of_dicts = convert_dict_to_row_dicts(ssn_dict)
+    sheet = parse_sheet_sequence(list_of_dicts)
 
     return sheet
 

@@ -1,5 +1,6 @@
 import logging
 
+import pandas
 import pandas as pd
 
 from arena.measurement.codecoverage import create_coverage_for, get_metrics
@@ -8,7 +9,7 @@ from arena.engine.classes import ClassUnderTest
 from arena.engine.ssntestdriver import InvocationListener, run_sheet, interpret_sheet, Test, ExecutedInvocation, \
     CodeInvocation, InstanceInvocation, MethodInvocation, Obj, TestInvocation
 from arena.lql.lqlparser import parse_lql, MethodSignature
-from arena.ssn.ssnparser import parse_sheet, parse_sheet_sequence
+from arena.ssn.ssnparser import parse_sheet, parse_sheet_sequence, parse_sheet_dataframe
 
 logger = logging.getLogger(__name__)
 
@@ -73,8 +74,13 @@ def parse_stimulus_matrix(sheets: [Sheet], cuts: [ClassUnderTest], sheet_invocat
     for sheet in sheets:
         parsed_sheet = None
         if isinstance(sheet.body, list):
+            # dictionary
             parsed_sheet = parse_sheet_sequence(sheet.body)
+        elif isinstance(sheet.body, pandas.DataFrame):
+            # DataFrame
+            parsed_sheet = parse_sheet_dataframe(sheet.body)
         else:
+            # JSONL
             parsed_sheet = parse_sheet(sheet.body)
 
         parse_lql_result = parse_lql(sheet.interface_lql)
