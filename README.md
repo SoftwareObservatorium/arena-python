@@ -6,22 +6,70 @@ For more information about the `arena` and the LASSO platform, visit our website
 
 ## Install
 
+Assumes Python3 >= 3.12 (tested with Ubuntu 24.04 LTS)
+
+### Using `pip`
+
+Example using Python's virtual environment (you need to have `virtualenv` installed; e.g. using `pip`)
+
+```shell
+pip3 install virtualenv # depending on your OS/Python distribution
+```
+
+Clone and install all required dependencies
+
+```shell
+git clone https://github.com/SoftwareObservatorium/arena-python.git
+python3 -m venv arena
+source arena/bin/activate
+cd arena-python/
+```
+
+Install packages
+
+```shell
+pip3 install -r requirements.txt
+```
+
+### Using `hatch`
+
 project is managed with `hatch` (https://hatch.pypa.io/latest/)
 
-```commandline
-pip install hatch
+```shell
+git clone https://github.com/SoftwareObservatorium/arena-python.git
+python3 -m venv arena
+source arena/bin/activate
+cd arena-python/
+```
+
+Install hatch
+
+```shell
+pip3 install hatch
 ```
 
 Build project
 
-```commandline
-python -m hatch build
+```shell
+python3 -m hatch build
 ```
 
 Test project
 
-```commandline
-python -m hatch test
+```shell
+python3 -m hatch test
+```
+
+### Optional Dependencies (Jupyter+Pandas)
+
+To run the example notebooks, the following dependencies need to be installed as well
+
+```shell
+pip3 install jupyter
+pip3 install pandas
+
+# start jupyter locally
+jupyter lab
 ```
 
 ## LQL Parser

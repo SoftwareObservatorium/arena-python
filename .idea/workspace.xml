@@ -4,7 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7a04b348-b7e1-4004-bf43-c3452fe416f3" name="Changes" comment="" />
+    <list default="true" id="7a04b348-b7e1-4004-bf43-c3452fe416f3" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/notebooks/base64_example.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/notebooks/base64_example.ipynb" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -30,62 +34,62 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Python tests.Python tests for arena_test.test_deque.executor": "Run",
-    "Python tests.Python tests for arena_test.test_list.executor": "Run",
-    "Python tests.Python tests for arena_test.test_queue.executor": "Run",
-    "Python tests.Python tests for arena_test.test_queue_code_expression.executor": "Run",
-    "Python tests.Python tests for arena_test.test_queue_parameterized_sheet.executor": "Run",
-    "Python tests.Python tests for arena_test.test_srm_base64_external.executor": "Run",
-    "Python tests.Python tests for arena_test.test_srm_base64_external_classes.executor": "Run",
-    "Python tests.Python tests for arena_test.test_srm_base64_external_classes_code_coverage.executor": "Run",
-    "Python tests.Python tests for arena_test.test_srm_base64_external_code_coverage.executor": "Run",
-    "Python tests.Python tests for arena_test.test_srm_base64_external_functions.executor": "Run",
-    "Python tests.Python tests for arena_test.test_srm_list.executor": "Run",
-    "Python tests.Python tests for arena_test.test_srm_list_builtin.executor": "Run",
-    "Python tests.Python tests for arena_test.test_srm_list_builtin_nojsonl.executor": "Run",
-    "Python tests.Python tests for artifacts_test.test_from_local_directory.executor": "Run",
-    "Python tests.Python tests for classes_test.test_load_by_name.executor": "Run",
-    "Python tests.Python tests for classes_test.test_module.executor": "Run",
-    "Python tests.Python tests for debugging_test.test.executor": "Run",
-    "Python tests.Python tests for gai_test.test_prompt_code.executor": "Run",
-    "Python tests.Python tests for gai_test.test_prompt_code_ollama.executor": "Run",
-    "Python tests.Python tests for gai_test.test_prompt_code_openai.executor": "Run",
-    "Python tests.Python tests for lqlparser_test.test_parse.executor": "Run",
-    "Python tests.Python tests for mutants_test.test_create_mutants.executor": "Run",
-    "Python tests.Python tests for parser_test.test_is_cell_reference.executor": "Run",
-    "Python tests.Python tests for parser_test.test_parse.executor": "Run",
-    "Python tests.Python tests for ssn_utilities_test.test_bla.executor": "Run",
-    "Python tests.Python tests for ssn_utilities_test.test_generate_rows_from_dict.executor": "Run",
-    "Python tests.Python tests for ssn_utilities_test.test_to_from.executor": "Run",
-    "Python tests.Python tests for ssnparser_test.test_parse.executor": "Run",
-    "Python tests.Python tests for ssnparser_test.test_parse_dataframe.executor": "Run",
-    "Python tests.Python tests for ssnparser_test.test_parse_dataframe_collections.executor": "Run",
-    "Python tests.Python tests in arena_test.py.executor": "Run",
-    "Python tests.Python tests in artifacts_test.py.executor": "Run",
-    "Python tests.Python tests in classes_test.py.executor": "Run",
-    "Python tests.Python tests in debugging_test.py.executor": "Run",
-    "Python tests.Python tests in lqlparser_test.py.executor": "Run",
-    "Python tests.Python tests in mutants_test.py.executor": "Run",
-    "Python tests.Python tests in parser_test.py.executor": "Run",
-    "Python tests.Python tests in ssnparser_test.py.executor": "Run",
-    "Python tests.Python tests in tests.executor": "Run",
-    "Python tests.pytest for tests.arena_test.test_srm_list_builtin.executor": "Run",
-    "Python.arena.executor": "Run",
-    "Python.classloader.executor": "Run",
-    "Python.load.executor": "Run",
-    "Python.main.executor": "Run",
-    "Python.pan.executor": "Run",
-    "Python.parser.executor": "Run",
-    "Python.ssn_utilities.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "/home/marcus/PycharmProjects/arena-python/tests",
-    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Python tests.Python tests for arena_test.test_deque.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for arena_test.test_list.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for arena_test.test_queue.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for arena_test.test_queue_code_expression.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for arena_test.test_queue_parameterized_sheet.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for arena_test.test_srm_base64_external.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for arena_test.test_srm_base64_external_classes.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for arena_test.test_srm_base64_external_classes_code_coverage.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for arena_test.test_srm_base64_external_code_coverage.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for arena_test.test_srm_base64_external_functions.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for arena_test.test_srm_list.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for arena_test.test_srm_list_builtin.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for arena_test.test_srm_list_builtin_nojsonl.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for artifacts_test.test_from_local_directory.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for classes_test.test_load_by_name.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for classes_test.test_module.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for debugging_test.test.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for gai_test.test_prompt_code.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for gai_test.test_prompt_code_ollama.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for gai_test.test_prompt_code_openai.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for lqlparser_test.test_parse.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for mutants_test.test_create_mutants.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for parser_test.test_is_cell_reference.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for parser_test.test_parse.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for ssn_utilities_test.test_bla.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for ssn_utilities_test.test_generate_rows_from_dict.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for ssn_utilities_test.test_to_from.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for ssnparser_test.test_parse.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for ssnparser_test.test_parse_dataframe.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for ssnparser_test.test_parse_dataframe_collections.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests in arena_test.py.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests in artifacts_test.py.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests in classes_test.py.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests in debugging_test.py.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests in lqlparser_test.py.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests in mutants_test.py.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests in parser_test.py.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests in ssnparser_test.py.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests in tests.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.pytest for tests.arena_test.test_srm_list_builtin.executor&quot;: &quot;Run&quot;,
+    &quot;Python.arena.executor&quot;: &quot;Run&quot;,
+    &quot;Python.classloader.executor&quot;: &quot;Run&quot;,
+    &quot;Python.load.executor&quot;: &quot;Run&quot;,
+    &quot;Python.main.executor&quot;: &quot;Run&quot;,
+    &quot;Python.pan.executor&quot;: &quot;Run&quot;,
+    &quot;Python.parser.executor&quot;: &quot;Run&quot;,
+    &quot;Python.ssn_utilities.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/marcus/PycharmProjects/arena-python/tests&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/tests" />
