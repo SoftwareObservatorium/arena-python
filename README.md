@@ -111,6 +111,8 @@ see examples in [notebooks](notebooks/)
 * [Load units under tests from local machine](notebooks/base64_example.ipynb)
 * [Use builtin types (collections example)](notebooks/list_example.ipynb)
 * [Use LLMs (via Ollama/OpenAI) to generate units under test (i.e., code candidates)](notebooks/llm_ollama_example.ipynb)
+* [Adapt to function signature mismatches - Use LLMs (via Ollama/OpenAI) to generate units under test (i.e., code candidates)](notebooks/llm_ollama_example_adaptation.ipynb)
+
 
 Tests that demonstrate the arena test driver can be found in [tests/](tests/).
 
