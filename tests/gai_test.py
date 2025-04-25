@@ -23,7 +23,7 @@ handler.setFormatter(formatter)
 logger.addHandler(handler)
 
 
-#@pytest.mark.skip(reason="depends on external Ollama service")
+@pytest.mark.skip(reason="depends on external Ollama service")
 def test_prompt_code():
     """
     Obtain code solutions from LLM model via Ollama and then run tests
@@ -94,7 +94,7 @@ def test_prompt_code():
     assert len(srm_actuations.index) == 1
 
 
-#@pytest.mark.skip(reason="depends on external Ollama service")
+@pytest.mark.skip(reason="depends on external Ollama service")
 def test_prompt_code_SingleFunctionAdaptationStrategy():
     """
     Obtain code solutions from LLM model via Ollama and then run tests.

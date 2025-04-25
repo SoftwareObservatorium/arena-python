@@ -5,17 +5,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7a04b348-b7e1-4004-bf43-c3452fe416f3" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/code-samples/base64_functions_adapt/917239ca-5093-44a6-a284-64e1acb8ccac/candidate.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/code-samples/base64_functions_adapt/c108afda-e52c-454b-a7ed-c05f48257a9b/candidate.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/code-samples/base64_functions_adapt/c9571f41-161b-46ed-a528-941d96a0dd2b/candidate.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/arena/arena.py" beforeDir="false" afterPath="$PROJECT_DIR$/arena/arena.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/arena/engine/adaptation.py" beforeDir="false" afterPath="$PROJECT_DIR$/arena/engine/adaptation.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/arena/introspection.py" beforeDir="false" afterPath="$PROJECT_DIR$/arena/introspection.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/notebooks/base64_example.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/notebooks/base64_example.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/notebooks/list_example.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/notebooks/list_example.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/notebooks/llm_ollama_example.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/notebooks/llm_ollama_example.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/arena_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/arena_test.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tests/gai_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/gai_test.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
