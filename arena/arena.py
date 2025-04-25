@@ -4,7 +4,7 @@ import pandas
 import pandas as pd
 
 from arena.measurement.codecoverage import create_coverage_for, get_metrics
-from arena.engine.adaptation import PassThroughAdaptationStrategy, AdaptedImplementation
+from arena.engine.adaptation import PassThroughAdaptationStrategy, AdaptedImplementation, AdaptationStrategy
 from arena.engine.classes import ClassUnderTest
 from arena.engine.ssntestdriver import InvocationListener, run_sheet, interpret_sheet, Test, ExecutedInvocation, \
     CodeInvocation, InstanceInvocation, MethodInvocation, Obj, TestInvocation
@@ -120,10 +120,12 @@ def parse_stimulus_matrix(sheets: [Sheet], cuts: [ClassUnderTest], sheet_invocat
     return sm
 
 
-def run_sheets(sm: pd.DataFrame, limit_adapters: int, invocation_listener: InvocationListener, measure_code_coverage: bool = False) -> pd.DataFrame:
+def run_sheets(sm: pd.DataFrame, limit_adapters: int, invocation_listener: InvocationListener, measure_code_coverage: bool = False, adaptation_strategy: AdaptationStrategy = PassThroughAdaptationStrategy()) -> pd.DataFrame:
     """
     Run stimulus matrix and return Stimulus Response Matrix (pandas DataFrame)
 
+    :param adaptation_strategy:
+    :param measure_code_coverage:
     :param sm:
     :param limit_adapters:
     :param invocation_listener:
@@ -136,7 +138,6 @@ def run_sheets(sm: pd.DataFrame, limit_adapters: int, invocation_listener: Invoc
         # pick some random test
         random_test_invocation = sm[cut].iloc[0]
 
-        adaptation_strategy = PassThroughAdaptationStrategy()
         adapted_implementations = adaptation_strategy.adapt(random_test_invocation.test.interface_specification, cut, limit_adapters)
 
         for adapted_implementation in adapted_implementations:

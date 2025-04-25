@@ -1,3 +1,4 @@
+import builtins
 import inspect
 import logging
 from pydoc import locate
@@ -5,6 +6,13 @@ from pydoc import locate
 
 logger = logging.getLogger(__name__)
 
+
+# Check for well-known Python builtins
+builtin_map = {
+    "len": builtins.len,
+    "str": builtins.str,
+    # FIXME add more as needed
+}
 
 def is_function(operation):
     return inspect.isfunction(operation)
@@ -48,8 +56,9 @@ def resolve_operation(clazz, operation_name, input_types):
     :return:
     """
 
-    if operation_name == "len":
-        return len
+    # python builtin functions in resolution process
+    if operation_name in builtin_map:
+        return builtin_map[operation_name]
 
     op = getattr(clazz, operation_name)
 

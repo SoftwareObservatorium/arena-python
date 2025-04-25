@@ -7,7 +7,8 @@ import pytest
 import main
 from arena.arena import parse_stimulus_matrix, Sheet, run_sheets, collect_actuation_sheets, SheetInvocation, \
     lql_to_sheet_signature
-from arena.engine.adaptation import PassThroughAdaptationStrategy
+from arena.engine.adaptation import PassThroughAdaptationStrategy, \
+    SingleFunctionAdaptationStrategy
 from arena.engine.artifacts import CodeCandidate, import_classes_under_test
 from arena.engine.classes import ClassUnderTest
 from arena.engine.ssntestdriver import interpret_sheet, run_sheet, InvocationListener, Test, TestInvocation
@@ -228,6 +229,63 @@ def test_srm_base64_external_functions():
     # run stimulus matrix
     invocation_listener = InvocationListener()
     srm = run_sheets(sm, 1, invocation_listener)
+    # results based on internal ExecutedInvocation
+    logger.debug(srm.to_string())
+
+    assert len(srm.columns) == 3
+    assert len(srm.index) == 1
+
+    # create actuation sheets, now we have the real stimulus response matrix (SRM)
+    srm_actuations = collect_actuation_sheets(srm)
+
+    logger.debug(srm_actuations.to_string())
+
+    assert len(srm_actuations.columns) == 3
+    assert len(srm_actuations.index) == 1
+
+
+def test_srm_base64_external_functions_SingleFunctionAdaptationStrategy():
+    """
+    Demonstrates typical scenario: SM as input and SRM as output (here functions are assumed).
+
+    BUT: Function names are different, so we need to ADAPT! Uses SingleFunctionAdaptationStrategy()
+
+    :return:
+    """
+
+    # lql (interface specification)
+    lql = """Base64 {
+            base64_encode(str)->str
+        }
+    """
+
+    # stimulus sheet
+    ssn_jsonl = """
+                {"cells": {"A1": {}, "B1": "create", "C1": "Base64"}}
+                {"cells": {"A2": {}, "B2": "base64_encode", "C2": "A1", "D2": "'Hello World!'"}}
+    """
+
+    # classes under test
+    base_folder = f"{main.PROJECT_ROOT}/code-samples/base64_functions_adapt"
+    c1 = CodeCandidate("917239ca-5093-44a6-a284-64e1acb8ccac", "",
+                       f"{base_folder}/917239ca-5093-44a6-a284-64e1acb8ccac/candidate.py")
+    c2 = CodeCandidate("c108afda-e52c-454b-a7ed-c05f48257a9b", "",
+                       f"{base_folder}/c108afda-e52c-454b-a7ed-c05f48257a9b/candidate.py")
+    c3 = CodeCandidate("c9571f41-161b-46ed-a528-941d96a0dd2b", "",
+                       f"{base_folder}/c9571f41-161b-46ed-a528-941d96a0dd2b/candidate.py")
+    cuts = import_classes_under_test([c1, c2, c3])
+
+    # create stimulus matrix
+    sm = parse_stimulus_matrix([Sheet("test1()", ssn_jsonl, lql)], cuts, [SheetInvocation("test1", "")])
+    logger.debug(sm.to_string())
+
+    assert len(sm.columns) == 3
+    assert len(sm.index) == 1
+
+    # run stimulus matrix
+    invocation_listener = InvocationListener()
+    adaptation_strategy = SingleFunctionAdaptationStrategy()
+    srm = run_sheets(sm, 1, invocation_listener, False, adaptation_strategy)
     # results based on internal ExecutedInvocation
     logger.debug(srm.to_string())
 
