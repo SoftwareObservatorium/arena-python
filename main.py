@@ -1,11 +1,7 @@
+import argparse
 import logging
 import os.path
 import sys
-
-from arena.engine.adaptation import AdaptedImplementation
-from arena.engine.ssntestdriver import interpret_sheet, run_sheet, InvocationListener
-from arena.lql.lqlparser import parse_lql
-from arena.ssn.ssnparser import parse_sheet
 
 # logging
 logger = logging.getLogger()
@@ -21,4 +17,19 @@ PROJECT_ROOT = os.path.dirname(__file__)
 
 
 if __name__ == '__main__':
-    print("TODO")
+    parser = argparse.ArgumentParser(description="Arena Test Driver")
+    # parser.add_argument("--someparam", required=True,
+    #                     help="XXX")
+    # parser.add_argument("--someparam", default=".", help="YYY")
+    # parser.add_argument("--someparam", type=int, default=50, help="ZZZ")
+
+    # FIXME parse arguments
+    #args = parser.parse_args()
+
+    # get candidates via cache
+
+    # prepare sheets
+
+    # run sheets
+
+    # store SRM

@@ -118,3 +118,17 @@ Tests that demonstrate the arena test driver can be found in [tests/](tests/).
 
 * [arena_test.py](tests/arena_test.py) contains integration tests (system tests)
 
+## Usage: Docker (under construction)
+
+### Build
+
+```bash
+docker build -t swtrepo.informatik.uni-mannheim.de:5050/docker/lasso/arena-python:latest -f Dockerfile .
+```
+
+### Run on ony project directory
+
+```bash
+docker run --network host -v "$PWD":/project swtrepo.informatik.uni-mannheim.de:5050/docker/lasso/arena-python:latest \
+    --someparam=XXX
+```
