@@ -9,7 +9,8 @@ import pandas as pd
 from arena.arena import Sheet, parse_stimulus_matrix, SheetInvocation, run_sheets
 from arena.engine.artifacts import write_modules_and_import_lasso_cuts
 from arena.engine.ssntestdriver import InvocationListener
-from lasso.job.ignite import LassoClusterClient, ClientArenaJobRepository
+from lasso.job.ignite import LassoClusterClient, ClientArenaJobRepository, ClientSrmRepository
+from lasso.srh.serialize import SRHWriter
 
 # logging
 logger = logging.getLogger()
@@ -104,10 +105,8 @@ if __name__ == '__main__':
     logger.info(srm.to_string())
 
     # FIXME store SRM (CellValue schema)
-    job['executionId']
-    job['actionId']
-    job['abstractionId']
-    job['actionId']
+    srh_writer = SRHWriter(ClientSrmRepository(cluster_client))
+    srh_writer.store_srm(job, "myarenaid", srm)
 
     # update job status
     #     CREATED,

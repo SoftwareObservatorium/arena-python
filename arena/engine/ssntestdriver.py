@@ -364,9 +364,10 @@ class ExecutionInvocations:
     Sequence of executed invocations and their result
     """
 
-    def __init__(self, invocations: Invocations):
+    def __init__(self, invocations: Invocations, adapted_implementation: AdaptedImplementation):
         self.executed_sequence = []
         self.invocations = invocations
+        self.adapted_implementation = adapted_implementation
 
 
     def create(self, invocation: Invocation):
@@ -745,7 +746,7 @@ def run_sheet(invocations: Invocations, adapted_implementation: AdaptedImplement
     :param invocation_listener
     :return:
     """
-    executed_invocations = ExecutionInvocations(invocations)
+    executed_invocations = ExecutionInvocations(invocations, adapted_implementation)
 
     # before execution
     try:

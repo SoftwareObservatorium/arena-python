@@ -53,6 +53,48 @@ class ClientArenaJobRepository(ArenaJobRepository):
         return self.cluster_client
 
 
+class ClientSrmRepository:
+
+    def __init__(self, cluster_client):
+        self.cluster_client = cluster_client
+        self.srm_cache = cluster_client.get_client().get_cache('srm')
+
+    def put_all(self, list_of_cells):
+        #self.srm_cache.put_all(cells)
+        insert_query = """
+            INSERT INTO srm.cellvalue (
+                executionId,
+                abstractionId,
+                actionId,
+                arenaId,
+                sheetId,
+                systemId,
+                variantId,
+                adapterId,
+                x,
+                y,
+                type,
+                value,
+                rawValue,
+                valueType,
+                lastModified,
+                executionTime
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        """
+
+        for cell_values in list_of_cells:
+            self.cluster_client.get_client().sql(insert_query, query_args=cell_values)
+
+    def get(self, cell_id):
+        return self.srm_cache.get(cell_id)
+
+    def get_srm_cache(self):
+        return self.srm_cache
+
+    def get_cluster_client(self):
+        return self.cluster_client
+
+
 class LassoClusterClient:
     def __init__(self, ssl_params, address='127.0.0.1:10800'):
         # Accept address as "host:port" or a list of such strings

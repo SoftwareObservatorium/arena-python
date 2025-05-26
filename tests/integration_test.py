@@ -89,4 +89,3 @@ def encode(string):
 
     assert len(srm_actuations.columns) == 1
     assert len(srm_actuations.index) == 1
-
