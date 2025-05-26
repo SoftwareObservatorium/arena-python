@@ -107,9 +107,39 @@ class SRHWriter:
         list_of_cells = []
 
         seen_sheets = []
+        seen_code_units = []
 
         # FIXME store oracle sheet as well
         for adapted_implementation in srm.columns:
+            impl_id = adapted_implementation.cut.id
+
+            if not impl_id in seen_code_units:
+                # persist metrics (indexmeasures)
+                found = next((i for i in arena_job['implementations'] if i['id'] == impl_id), None)
+                for key, value in found.get("code", {}).get("measures", {}).items():
+                    # sheet body
+                    list_of_cells.append(self.cell_to_insert_args(CellId(
+                        executionId=arena_job['executionId'],
+                        abstractionId=arena_job['abstractionId'],
+                        actionId=arena_job['actionId'],
+                        arenaId=arena_id,
+                        sheetId="indexmeasures",
+                        systemId=adapted_implementation.cut.id,
+                        variantId=adapted_implementation.cut.variant_id,
+                        adapterId=adapted_implementation.adapter_id,
+                        x=-1,
+                        y=-1,
+                        type=key
+                    ), CellValue(
+                        value=str(value),
+                        #rawValue=str(test_invocation.test.parsed_sheet.sheet.body),
+                        lastModified=datetime.now()
+                    )))
+
+                    # add
+                    seen_code_units.append(impl_id)
+
+
             for executed_invocations in srm[adapted_implementation]:
                 test_invocation = executed_invocations.invocations.test_invocation
                 # Compose sheetId from test signature and invocation
@@ -152,6 +182,9 @@ class SRHWriter:
                         #rawValue=str(test_invocation.test.parsed_sheet.sheet.interface_lql),
                         lastModified=datetime.now()
                     )))
+
+                    # add
+                    seen_sheets.append(sheet_id)
 
                 for executed_invocation in executed_invocations.executed_sequence:
                     row_id = executed_invocation.invocation.index

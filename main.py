@@ -4,8 +4,6 @@ import os.path
 import sys
 import time
 
-import pandas as pd
-
 from arena.arena import Sheet, parse_stimulus_matrix, SheetInvocation, run_sheets
 from arena.engine.artifacts import write_modules_and_import_lasso_cuts
 from arena.engine.ssntestdriver import InvocationListener
@@ -86,7 +84,7 @@ if __name__ == '__main__':
     # prepare implementations
     implementations = job['implementations']
 
-    # FIXME permission denied
+    # FIXME in docker container: permission denied
     #target_folder = f"{args.workdir}/python-{round(time.time() * 1000)}"
     target_folder = f"/tmp/arena-python-{round(time.time() * 1000)}"
     # units under test
@@ -100,13 +98,15 @@ if __name__ == '__main__':
 
     # run stimulus matrix
     invocation_listener = InvocationListener()
+
+    arena_id = "myarenaid" # FIXME arena id
     srm = run_sheets(sm, 1, invocation_listener)
     # results based on internal ExecutedInvocation
     logger.info(srm.to_string())
 
-    # FIXME store SRM (CellValue schema)
+    # store SRM (CellValue schema)
     srh_writer = SRHWriter(ClientSrmRepository(cluster_client))
-    srh_writer.store_srm(job, "myarenaid", srm)
+    srh_writer.store_srm(job, arena_id, srm)
 
     # update job status
     #     CREATED,
