@@ -7,3 +7,5 @@ parso~=0.8.4
 langchain-core~=0.3.35
 langchain-ollama~=0.2.3
 langchain-openai~=0.3.6
+pyignite~=0.6.1
+pytest~=8.3.4

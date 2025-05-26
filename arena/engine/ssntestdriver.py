@@ -440,7 +440,11 @@ def resolve_parameter_type(invocations: Invocations, arg: ParsedCell):
     out_expr = None
     if type(arg.value) == str:
         out_expr = arg.value
-        out_val = eval_code_expression(arg.value)
+
+        # only if not empty
+        if out_expr:
+            out_val = eval_code_expression(arg.value)
+
     else:
         out_val = arg.value
 

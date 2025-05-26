@@ -138,3 +138,36 @@ def write_modules_and_import_cuts(target_folder: str, code_solutions: list) -> [
 
     return cuts
 
+
+def write_modules_and_import_lasso_cuts(target_folder: str, implementations: list) -> [ClassUnderTest]:
+    """
+    Store LASSO code implementations and return CUTs
+
+    :param target_folder:
+    :param implementations:
+    :return:
+    """
+
+    candidates = []
+    for c in range(len(implementations)):
+        implementation = implementations[c]
+        candidate_id = f"{implementation['code']['id']}"
+
+        full_subfolder_path = os.path.join(target_folder, candidate_id)
+
+        if not os.path.exists(full_subfolder_path):
+            os.makedirs(full_subfolder_path)
+
+        # Create the text file
+        file_name = "candidate.py"
+        full_file_path = os.path.join(full_subfolder_path, file_name)
+
+        with open(full_file_path, 'w') as f:
+            f.write(implementation['code']['content'])
+
+        code_candidate = CodeCandidate(candidate_id, "", full_file_path)
+        candidates.append(code_candidate)
+
+    cuts = import_classes_under_test(candidates)
+
+    return cuts
