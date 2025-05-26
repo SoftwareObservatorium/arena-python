@@ -12,7 +12,7 @@ class ParsedSheet:
 
     def __init__(self):
         self.rows = []
-
+        self.sheet = None
 
     def resolve(self, cell_ref: str):
         """

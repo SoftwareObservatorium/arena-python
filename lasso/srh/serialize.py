@@ -106,11 +106,52 @@ class SRHWriter:
     def store_srm(self, arena_job, arena_id, srm: pd.DataFrame):
         list_of_cells = []
 
+        seen_sheets = []
+
+        # FIXME store oracle sheet as well
         for adapted_implementation in srm.columns:
             for executed_invocations in srm[adapted_implementation]:
                 test_invocation = executed_invocations.invocations.test_invocation
                 # Compose sheetId from test signature and invocation
                 sheet_id = str(test_invocation)
+
+                if not sheet_id in seen_sheets:
+                    # sheet body
+                    list_of_cells.append(self.cell_to_insert_args(CellId(
+                        executionId=arena_job['executionId'],
+                        abstractionId=arena_job['abstractionId'],
+                        actionId=arena_job['actionId'],
+                        arenaId=arena_id,
+                        sheetId=sheet_id,
+                        systemId="abstraction",
+                        variantId="abstraction",
+                        adapterId="abstraction",
+                        x=-1,
+                        y=-1,
+                        type="stimulussheet"
+                    ), CellValue(
+                        value=str(test_invocation.test.parsed_sheet.sheet.body),
+                        #rawValue=str(test_invocation.test.parsed_sheet.sheet.body),
+                        lastModified=datetime.now()
+                    )))
+                    # interface
+                    list_of_cells.append(self.cell_to_insert_args(CellId(
+                        executionId=arena_job['executionId'],
+                        abstractionId=arena_job['abstractionId'],
+                        actionId=arena_job['actionId'],
+                        arenaId=arena_id,
+                        sheetId=sheet_id,
+                        systemId="abstraction",
+                        variantId="abstraction",
+                        adapterId="abstraction",
+                        x=-1,
+                        y=-1,
+                        type="interface"
+                    ), CellValue(
+                        value=str(test_invocation.test.parsed_sheet.sheet.interface_lql),
+                        #rawValue=str(test_invocation.test.parsed_sheet.sheet.interface_lql),
+                        lastModified=datetime.now()
+                    )))
 
                 for executed_invocation in executed_invocations.executed_sequence:
                     row_id = executed_invocation.invocation.index

@@ -83,6 +83,8 @@ def parse_stimulus_matrix(sheets: [Sheet], cuts: [ClassUnderTest], sheet_invocat
             # JSONL
             parsed_sheet = parse_sheet(sheet.body)
 
+        parsed_sheet.sheet = sheet
+
         parse_lql_result = parse_lql(sheet.interface_lql)
 
         sheet_signature = lql_to_sheet_signature(sheet.signature)
