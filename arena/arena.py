@@ -1,3 +1,4 @@
+import json
 import logging
 
 import pandas
@@ -234,6 +235,7 @@ def collect_actuation_sheets(srm: pd.DataFrame) -> pd.DataFrame:
 
 
 def output_as_string(executed_invocation: ExecutedInvocation, adapted_implementation: AdaptedImplementation):
+    # must be in lang format
     return to_string(executed_invocation.output, adapted_implementation)
 
 
@@ -278,7 +280,7 @@ def to_string(obj: Obj, adapted_implementation: AdaptedImplementation):
         if obj.is_cut(adapted_implementation.cut.class_under_test):
             serialized_str = f"$CUT@{type(obj.value).__name__}@{obj.producer_index}"
         else:
-            serialized_str = str(obj.value)
+            serialized_str = json.dumps(obj.value)#str(obj.value)
 
     return serialized_str
 

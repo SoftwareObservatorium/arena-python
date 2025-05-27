@@ -7,6 +7,8 @@
     <list default="true" id="7a04b348-b7e1-4004-bf43-c3452fe416f3" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/arena/arena.py" beforeDir="false" afterPath="$PROJECT_DIR$/arena/arena.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lasso/srh/serialize.py" beforeDir="false" afterPath="$PROJECT_DIR$/lasso/srh/serialize.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -110,8 +112,8 @@
       <recent name="$PROJECT_DIR$/arena/" />
     </key>
   </component>
-  <component name="RunManager" selected="Python tests.Python tests in arena_test.py">
-    <configuration name="Python tests for arena_test.test_srm_base64_external_functions" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Python tests.Python tests for arena_test.test_queue">
+    <configuration name="Python tests for arena_test.test_queue" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="arena-python" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -122,7 +124,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;arena_test.test_srm_base64_external_functions&quot;" />
+      <option name="_new_target" value="&quot;arena_test.test_queue&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
@@ -188,11 +190,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python tests.Python tests for arena_test.test_queue" />
         <item itemvalue="Python tests.Python tests in arena_test.py" />
         <item itemvalue="Python tests.Python tests for integration_test.test_srm_base64_external_functions" />
         <item itemvalue="Python tests.Python tests for arena_test.test_srm_base64_external_functions_SingleFunctionAdaptationStrategy" />
         <item itemvalue="Python tests.Python tests for pyignite_test.test_connection" />
-        <item itemvalue="Python tests.Python tests for arena_test.test_srm_base64_external_functions" />
       </list>
     </recent_temporary>
   </component>

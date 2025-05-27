@@ -5,6 +5,7 @@ import sys
 import time
 
 from arena.arena import Sheet, parse_stimulus_matrix, SheetInvocation, run_sheets
+from arena.engine.adaptation import PassThroughAdaptationStrategy, SingleFunctionAdaptationStrategy
 from arena.engine.artifacts import write_modules_and_import_lasso_cuts
 from arena.engine.ssntestdriver import InvocationListener
 from lasso.job.ignite import LassoClusterClient, ClientArenaJobRepository, ClientSrmRepository
@@ -21,6 +22,30 @@ logger.addHandler(handler)
 
 
 PROJECT_ROOT = os.path.dirname(__file__)
+
+
+def parse_features(feature_string):
+  """
+  Parses a comma-delimited string of features into a list of strings.
+
+  Args:
+    feature_string: A string containing comma-separated features.  Can handle
+      leading/trailing whitespace and multiple spaces between commas.
+
+  Returns:
+    A list of strings, where each string represents a feature.  Returns an
+    empty list if the input string is empty or None.
+  """
+  if not feature_string:  # Handle empty or None input
+    return []
+
+  # Split the string by commas and strip whitespace from each resulting part
+  features = [feature.strip() for feature in feature_string.split(',')]
+
+  # Remove any empty strings that might have resulted from multiple commas
+  features = [feature for feature in features if feature]
+
+  return features
 
 
 if __name__ == '__main__':
@@ -57,10 +82,20 @@ if __name__ == '__main__':
     logger.info(f"JOB JSON {job}")
 
     # FIXME job configuration
-    #job['adapterStrategy']
-    #job['maxPermutations']
-    #job['specification']
-    #job['scope']
+    adapter_strategy = PassThroughAdaptationStrategy()
+    if job['adapterStrategy']:
+        if job['adapterStrategy'] == 'PassThroughAdaptationStrategy':
+            adapter_strategy = PassThroughAdaptationStrategy()
+        elif job['adapterStrategy'] == 'SingleFunctionAdaptationStrategy':
+            adapter_strategy = SingleFunctionAdaptationStrategy()
+
+    limit_adapters = job['maxPermutations']
+    #job['scope'] scope for measurements
+
+    # enable features
+    features = parse_features(args.features)
+    measure_code_coverage = "cc" in features
+    mutation_coverage = "mutation" in features
 
     # prepare sheets
     stimulus_sheets = job['stimulusSheets']
@@ -97,22 +132,27 @@ if __name__ == '__main__':
     logger.info(sm.to_string())
 
     # run stimulus matrix
-    invocation_listener = InvocationListener()
+    try:
+        invocation_listener = InvocationListener()
 
-    arena_id = "myarenaid" # FIXME arena id
-    srm = run_sheets(sm, 1, invocation_listener)
-    # results based on internal ExecutedInvocation
-    logger.info(srm.to_string())
+        arena_id = "myarenaid"  # FIXME arena id
 
-    # store SRM (CellValue schema)
-    srh_writer = SRHWriter(ClientSrmRepository(cluster_client))
-    srh_writer.store_srm(job, arena_id, srm)
+        srm = run_sheets(sm, limit_adapters, invocation_listener, measure_code_coverage=measure_code_coverage, adaptation_strategy=adapter_strategy)
+        # results based on internal ExecutedInvocation
+        logger.info(srm.to_string())
 
-    # update job status
-    #     CREATED,
-    #     FINISHED,
-    #     FAILED
-    job_repository.put(job_id, "FINISHED")
+        # store SRM (CellValue schema)
+        srh_writer = SRHWriter(ClientSrmRepository(cluster_client))
+        srh_writer.store_srm(job, arena_id, srm)
 
-    # close
-    cluster_client.close()
+        # update job status
+        #     CREATED,
+        #     FINISHED,
+        #     FAILED
+        job_repository.put(job_id, "FINISHED")
+    except Exception as e:
+        logger.warning(f"Run sheets failed with {e}")
+        job_repository.put(job_id, "FAILED")
+    finally:
+        # close
+        cluster_client.close()

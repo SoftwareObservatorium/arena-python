@@ -110,6 +110,8 @@ class SRHWriter:
         seen_code_units = []
 
         # FIXME store oracle sheet as well
+        # FIXME store code coverage
+        # FIXME store mutants
         for adapted_implementation in srm.columns:
             impl_id = adapted_implementation.cut.id
 
