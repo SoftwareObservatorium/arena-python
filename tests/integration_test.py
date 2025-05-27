@@ -75,7 +75,7 @@ def encode(string):
 
     # run stimulus matrix
     invocation_listener = InvocationListener()
-    srm = run_sheets(sm, 1, invocation_listener)
+    srm = run_sheets(sm, 1, invocation_listener, measure_code_coverage=True)
     # results based on internal ExecutedInvocation
     logger.debug(srm.to_string())
 

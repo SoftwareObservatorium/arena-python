@@ -1,6 +1,7 @@
 import json
 import logging
 import tempfile
+import traceback
 
 import coverage
 
@@ -18,7 +19,7 @@ def create_coverage_for(code_candidate: CodeCandidate) -> coverage.Coverage:
     :return:
     """
 
-    cov = coverage.Coverage(source=[code_candidate.code_module.__name__], branch=True)
+    cov = coverage.Coverage(source=[code_candidate.code_module.__name__], branch=True, data_file=f"{code_candidate.folder}.coverage")
 
     return cov
 
@@ -33,12 +34,15 @@ def get_metrics(cov: coverage.Coverage, code_candidate: CodeCandidate):
 
     measures = {}
 
-    with tempfile.NamedTemporaryFile(delete_on_close=False) as fp:
+    with tempfile.NamedTemporaryFile(delete_on_close=True) as fp:
         try:
+            logger.info(f"creating temp file {fp.name}")
+
             cov.json_report(outfile=fp.name)
         except Exception as e:
             logger.warning(f"Error storing coverage report: {e}")
-            raise e
+            traceback.print_exception(e)
+            return measures
 
 
         # open file
@@ -56,6 +60,10 @@ def get_metrics(cov: coverage.Coverage, code_candidate: CodeCandidate):
                 measures['branches.total'] = candidate_measurement["summary"]["num_branches"]
                 measures['branches.covered'] = candidate_measurement["summary"]["covered_branches"]
                 measures['branches.missed'] = candidate_measurement["summary"]["missing_branches"]
+
+                measures['lines.total'] = candidate_measurement["summary"]["num_statements"]
+                measures['lines.covered'] = candidate_measurement["summary"]["covered_lines"]
+                measures['lines.missed'] = candidate_measurement["summary"]["missing_lines"]
 
                 logger.debug(f"coverage report for branches {measures}")
             except Exception as e:

@@ -38,6 +38,7 @@ class AdaptedImplementation:
         self.initializer_mapping = initializer_mapping
         self.method_mapping = method_mapping
         self.adapter_id = "0"
+        self.measures = {}
 
 
     def get_method(self, interface_specification, index: int) -> AdaptedMethod:

@@ -3,6 +3,7 @@ import logging
 import os.path
 import sys
 import time
+import traceback
 
 from arena.arena import Sheet, parse_stimulus_matrix, SheetInvocation, run_sheets
 from arena.engine.adaptation import PassThroughAdaptationStrategy, SingleFunctionAdaptationStrategy
@@ -152,6 +153,8 @@ if __name__ == '__main__':
         job_repository.put(job_id, "FINISHED")
     except Exception as e:
         logger.warning(f"Run sheets failed with {e}")
+        traceback.print_exception(e)
+
         job_repository.put(job_id, "FAILED")
     finally:
         # close

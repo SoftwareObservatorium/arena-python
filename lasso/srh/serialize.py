@@ -110,13 +110,34 @@ class SRHWriter:
         seen_code_units = []
 
         # FIXME store oracle sheet as well
-        # FIXME store code coverage
         # FIXME store mutants
         for adapted_implementation in srm.columns:
+            # dynamic measures
+            if adapted_implementation.measures:
+                for key, value in adapted_implementation.measures.items():
+                    list_of_cells.append(self.cell_to_insert_args(CellId(
+                        executionId=arena_job['executionId'],
+                        abstractionId=arena_job['abstractionId'],
+                        actionId=arena_job['actionId'],
+                        arenaId=arena_id,
+                        sheetId="jacoco",
+                        systemId=adapted_implementation.cut.id,
+                        variantId=adapted_implementation.cut.variant_id,
+                        adapterId=adapted_implementation.adapter_id,
+                        x=-1,
+                        y=-1,
+                        type=key
+                    ), CellValue(
+                        value=str(value),
+                        #rawValue=str(test_invocation.test.parsed_sheet.sheet.body),
+                        lastModified=datetime.now()
+                    )))
+
+
             impl_id = adapted_implementation.cut.id
 
             if not impl_id in seen_code_units:
-                # persist metrics (indexmeasures)
+                # persist static measures (indexmeasures)
                 found = next((i for i in arena_job['implementations'] if i['id'] == impl_id), None)
                 for key, value in found.get("code", {}).get("measures", {}).items():
                     # sheet body

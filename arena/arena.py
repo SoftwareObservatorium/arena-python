@@ -1,5 +1,6 @@
 import json
 import logging
+import traceback
 
 import pandas
 import pandas as pd
@@ -145,6 +146,7 @@ def run_sheets(sm: pd.DataFrame, limit_adapters: int, invocation_listener: Invoc
         try:
             adapted_implementations = adaptation_strategy.adapt(random_test_invocation.test.interface_specification, cut, limit_adapters)
         except Exception as e:
+            traceback.print_exception(e)
             logger.warning(f"Adaptation for {cut.id} failed with {e}")
 
         for adapted_implementation in adapted_implementations:
@@ -167,12 +169,14 @@ def run_sheets(sm: pd.DataFrame, limit_adapters: int, invocation_listener: Invoc
 
                     executed_tests.append(executed_invocations)
                 except Exception as e:
+                    traceback.print_exception(e)
                     logger.warning(f"Test invocation for {adapted_implementation} and {test_invocation} failed with {e}")
 
             if code_coverage is not None:
                 code_coverage.stop()
-                # FIXME create pandas SRM
+                # set measures
                 measures = get_metrics(code_coverage, adapted_implementation.cut.code_candidate)
+                adapted_implementation.measures.update(measures)
 
             data[adapted_implementation] = executed_tests
 
