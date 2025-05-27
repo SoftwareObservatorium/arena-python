@@ -140,7 +140,11 @@ def run_sheets(sm: pd.DataFrame, limit_adapters: int, invocation_listener: Invoc
         # pick some random test
         random_test_invocation = sm[cut].iloc[0]
 
-        adapted_implementations = adaptation_strategy.adapt(random_test_invocation.test.interface_specification, cut, limit_adapters)
+        adapted_implementations = []
+        try:
+            adapted_implementations = adaptation_strategy.adapt(random_test_invocation.test.interface_specification, cut, limit_adapters)
+        except Exception as e:
+            logger.warning(f"Adaptation for {cut.id} failed with {e}")
 
         for adapted_implementation in adapted_implementations:
             logger.debug(f" Adapted implementation {adapted_implementation.adapter_id} of class under test {adapted_implementation.cut.class_under_test}")
@@ -153,13 +157,16 @@ def run_sheets(sm: pd.DataFrame, limit_adapters: int, invocation_listener: Invoc
                 code_coverage = create_coverage_for(adapted_implementation.cut.code_candidate)
                 code_coverage.start()
             for test_invocation in sm[cut]:
-                # interpret (resolve bindings)
-                invocations = interpret_sheet(test_invocation)
+                try:
+                    # interpret (resolve bindings)
+                    invocations = interpret_sheet(test_invocation)
 
-                # run
-                executed_invocations = run_sheet(invocations, adapted_implementation, invocation_listener)
+                    # run
+                    executed_invocations = run_sheet(invocations, adapted_implementation, invocation_listener)
 
-                executed_tests.append(executed_invocations)
+                    executed_tests.append(executed_invocations)
+                except Exception as e:
+                    logger.warning(f"Test invocation for {adapted_implementation} and {test_invocation} failed with {e}")
 
             if code_coverage is not None:
                 code_coverage.stop()
